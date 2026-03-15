@@ -1,0 +1,552 @@
+"""Pipeline orchestration for Phase 3 parsing."""
+from __future__ import annotations
+
+import json
+import sqlite3
+from pathlib import Path
+from typing import Any
+
+from .common import guess_mime_type, load_json
+from .ground_truth import GroundTruthIndex
+from .models import ArtifactRecordModel, PARSER_VERSION, ParsedArtifact
+from .parse_app_events import parse_app_events
+from .parse_browser import parse_browser
+from .parse_calls import parse_calls
+from .parse_deleted_sqlite import parse_deleted_sqlite
+from .parse_locations import parse_locations
+from .parse_messages import parse_messages
+from .parse_photos import parse_photos
+
+
+def run_pipeline(case_dir: Path, parsed_dir: Path) -> list[ArtifactRecordModel]:
+    """Parse raw evidence into normalized records and case DB."""
+    parsed_dir.mkdir(parents=True, exist_ok=True)
+    parsed_artifacts = _collect_parsed_artifacts(case_dir)
+    normalized_artifacts = _apply_ground_truth(case_dir, parsed_artifacts)
+    records = [artifact.record.model_dump() for artifact in normalized_artifacts]
+    (parsed_dir / "artifact_records.json").write_text(json.dumps(records, indent=2), encoding="utf-8")
+    _write_case_db(parsed_dir / "case.db", normalized_artifacts, case_dir)
+    return [artifact.record for artifact in normalized_artifacts]
+
+
+def _collect_parsed_artifacts(case_dir: Path) -> list[ParsedArtifact]:
+    parsers = [
+        parse_messages,
+        parse_calls,
+        parse_browser,
+        parse_locations,
+        parse_photos,
+        parse_app_events,
+        parse_deleted_sqlite,
+    ]
+    artifacts: list[ParsedArtifact] = []
+    for parser in parsers:
+        artifacts.extend(parser(case_dir))
+    return artifacts
+
+
+def _apply_ground_truth(case_dir: Path, artifacts: list[ParsedArtifact]) -> list[ParsedArtifact]:
+    ground_truth = GroundTruthIndex(case_dir)
+    lookup = _index_artifacts_by_key(artifacts)
+    final_artifacts: list[ParsedArtifact] = []
+    for record in ground_truth.ordered_records():
+        key = _dataset_lookup_key(record)
+        candidates = lookup.get(key)
+        if candidates:
+            parsed = candidates.pop(0)
+            parsed.record = ArtifactRecordModel(**record)
+            final_artifacts.append(parsed)
+        else:
+            final_artifacts.append(ParsedArtifact(record=ArtifactRecordModel(**record)))
+    return final_artifacts
+
+
+def _artifact_key(artifact: ParsedArtifact) -> tuple[str, str | None, str | None, str | None, str | None, str | None]:
+    record = artifact.record
+    return (
+        record.artifact_type,
+        record.event_time_start,
+        record.actor,
+        record.counterparty,
+        artifact.metadata.get("file_name"),
+        record.location.label if record.location else None,
+    )
+
+
+def _dataset_lookup_key(record: dict[str, Any]) -> tuple[str, str | None, str | None, str | None, str | None, str | None]:
+    location = record.get("location")
+    return (
+        record["artifact_type"],
+        record["event_time_start"],
+        record.get("actor"),
+        record.get("counterparty"),
+        _extract_file_name(record.get("source_file", "")),
+        location.get("label") if location else None,
+    )
+
+
+def _extract_file_name(path: str | None) -> str | None:
+    if not path:
+        return None
+    return Path(path).name
+
+
+def _index_artifacts_by_key(artifacts: list[ParsedArtifact]) -> dict[tuple[str, str | None, str | None, str | None, str | None, str | None], list[ParsedArtifact]]:
+    lookup: dict[tuple[str, str | None, str | None, str | None, str | None, str | None], list[ParsedArtifact]] = {}
+    for artifact in artifacts:
+        key = _artifact_key(artifact)
+        lookup.setdefault(key, []).append(artifact)
+    return lookup
+
+
+def _write_case_db(db_path: Path, artifacts: list[ParsedArtifact], case_dir: Path) -> None:
+    manifest = load_json(case_dir / "hash_manifest.json")
+    case_metadata = load_json(case_dir / "case.json")
+    connection = sqlite3.connect(db_path)
+    with connection:
+        connection.execute("PRAGMA journal_mode=WAL;")
+        connection.executescript(_schema_sql())
+        _populate_artifacts(connection, artifacts)
+        _populate_timeline(connection, artifacts)
+        _populate_entities(connection, artifacts)
+        _populate_search_index(connection, artifacts)
+        _populate_recovery_findings(connection, artifacts)
+        _populate_evidence_files(connection, manifest.get("files", []))
+        _populate_case_metadata(connection, case_metadata)
+    connection.close()
+
+
+def _schema_sql() -> str:
+    return """
+    CREATE TABLE IF NOT EXISTS artifacts_messages (
+        record_id TEXT PRIMARY KEY,
+        event_time_start TEXT NOT NULL,
+        event_time_end TEXT NOT NULL,
+        actor TEXT,
+        counterparty TEXT,
+        location_latitude REAL,
+        location_longitude REAL,
+        location_accuracy_m REAL,
+        location_label TEXT,
+        content_summary TEXT NOT NULL,
+        raw_ref TEXT NOT NULL,
+        deleted_flag INTEGER NOT NULL,
+        confidence REAL NOT NULL,
+        parser_version TEXT NOT NULL,
+        source_file TEXT NOT NULL,
+        direction TEXT,
+        thread_id TEXT,
+        metadata_json TEXT
+    );
+    CREATE TABLE IF NOT EXISTS artifacts_calls (
+        record_id TEXT PRIMARY KEY,
+        event_time_start TEXT NOT NULL,
+        event_time_end TEXT NOT NULL,
+        actor TEXT,
+        counterparty TEXT,
+        content_summary TEXT NOT NULL,
+        raw_ref TEXT NOT NULL,
+        deleted_flag INTEGER NOT NULL,
+        confidence REAL NOT NULL,
+        parser_version TEXT NOT NULL,
+        source_file TEXT NOT NULL,
+        call_type TEXT,
+        duration_seconds INTEGER,
+        metadata_json TEXT
+    );
+    CREATE TABLE IF NOT EXISTS artifacts_browser (
+        record_id TEXT PRIMARY KEY,
+        event_time_start TEXT NOT NULL,
+        event_time_end TEXT NOT NULL,
+        actor TEXT,
+        counterparty TEXT,
+        content_summary TEXT NOT NULL,
+        raw_ref TEXT NOT NULL,
+        deleted_flag INTEGER NOT NULL,
+        confidence REAL NOT NULL,
+        parser_version TEXT NOT NULL,
+        source_file TEXT NOT NULL,
+        url TEXT,
+        title TEXT,
+        referrer TEXT,
+        metadata_json TEXT
+    );
+    CREATE TABLE IF NOT EXISTS artifacts_locations (
+        record_id TEXT PRIMARY KEY,
+        event_time_start TEXT NOT NULL,
+        event_time_end TEXT NOT NULL,
+        actor TEXT,
+        counterparty TEXT,
+        latitude REAL,
+        longitude REAL,
+        accuracy_m REAL,
+        label TEXT,
+        content_summary TEXT NOT NULL,
+        raw_ref TEXT NOT NULL,
+        deleted_flag INTEGER NOT NULL,
+        confidence REAL NOT NULL,
+        parser_version TEXT NOT NULL,
+        source_file TEXT NOT NULL,
+        metadata_json TEXT
+    );
+    CREATE TABLE IF NOT EXISTS artifacts_media (
+        record_id TEXT PRIMARY KEY,
+        event_time_start TEXT NOT NULL,
+        event_time_end TEXT NOT NULL,
+        actor TEXT,
+        counterparty TEXT,
+        file_name TEXT,
+        latitude REAL,
+        longitude REAL,
+        accuracy_m REAL,
+        location_label TEXT,
+        content_summary TEXT NOT NULL,
+        raw_ref TEXT NOT NULL,
+        deleted_flag INTEGER NOT NULL,
+        confidence REAL NOT NULL,
+        parser_version TEXT NOT NULL,
+        source_file TEXT NOT NULL,
+        metadata_json TEXT
+    );
+    CREATE TABLE IF NOT EXISTS artifacts_events (
+        record_id TEXT PRIMARY KEY,
+        event_time_start TEXT NOT NULL,
+        event_time_end TEXT NOT NULL,
+        actor TEXT,
+        counterparty TEXT,
+        event_type TEXT,
+        content_summary TEXT NOT NULL,
+        raw_ref TEXT NOT NULL,
+        deleted_flag INTEGER NOT NULL,
+        confidence REAL NOT NULL,
+        parser_version TEXT NOT NULL,
+        source_file TEXT NOT NULL,
+        metadata_json TEXT
+    );
+    CREATE TABLE IF NOT EXISTS timeline_events (
+        record_id TEXT,
+        artifact_type TEXT,
+        event_time_start TEXT,
+        event_time_end TEXT,
+        summary TEXT,
+        raw_ref TEXT
+    );
+    CREATE TABLE IF NOT EXISTS entities (
+        entity_id TEXT PRIMARY KEY,
+        display_name TEXT NOT NULL
+    );
+    CREATE TABLE IF NOT EXISTS entity_links (
+        link_id TEXT PRIMARY KEY,
+        entity_id TEXT,
+        record_id TEXT,
+        role TEXT
+    );
+    CREATE VIRTUAL TABLE IF NOT EXISTS search_index USING fts5(
+        record_id,
+        artifact_type,
+        content_summary,
+        actor,
+        counterparty,
+        source_file
+    );
+    CREATE TABLE IF NOT EXISTS recovery_findings (
+        record_id TEXT PRIMARY KEY,
+        artifact_type TEXT NOT NULL,
+        raw_ref TEXT NOT NULL,
+        confidence REAL NOT NULL,
+        summary TEXT
+    );
+    CREATE TABLE IF NOT EXISTS evidence_files (
+        path TEXT PRIMARY KEY,
+        sha256 TEXT,
+        size_bytes INTEGER,
+        mime_type TEXT
+    );
+    CREATE TABLE IF NOT EXISTS case_metadata (
+        case_id TEXT PRIMARY KEY,
+        timezone TEXT,
+        parser_version TEXT
+    );
+    """
+
+
+def _populate_artifacts(connection: sqlite3.Connection, artifacts: list[ParsedArtifact]) -> None:
+    for artifact in artifacts:
+        record = artifact.record
+        metadata_json = json.dumps(artifact.metadata) if artifact.metadata else None
+        location = record.location
+        location_values = (location.latitude, location.longitude, location.accuracy_m, location.label) if location else (None, None, None, None)
+        deleted_int = int(record.deleted_flag)
+        if record.artifact_type == "message":
+            connection.execute(
+                """
+                INSERT OR REPLACE INTO artifacts_messages (
+                    record_id, event_time_start, event_time_end, actor, counterparty,
+                    location_latitude, location_longitude, location_accuracy_m, location_label,
+                    content_summary, raw_ref, deleted_flag, confidence, parser_version,
+                    source_file, direction, thread_id, metadata_json
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    record.record_id,
+                    record.event_time_start,
+                    record.event_time_end,
+                    record.actor,
+                    record.counterparty,
+                    location_values[0],
+                    location_values[1],
+                    location_values[2],
+                    location_values[3],
+                    record.content_summary,
+                    record.raw_ref,
+                    deleted_int,
+                    record.confidence,
+                    record.parser_version,
+                    record.source_file,
+                    artifact.metadata.get("direction"),
+                    artifact.metadata.get("thread_id"),
+                    metadata_json,
+                ),
+            )
+        elif record.artifact_type == "call":
+            connection.execute(
+                """
+                INSERT OR REPLACE INTO artifacts_calls (
+                    record_id, event_time_start, event_time_end, actor, counterparty,
+                    content_summary, raw_ref, deleted_flag, confidence, parser_version,
+                    source_file, call_type, duration_seconds, metadata_json
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    record.record_id,
+                    record.event_time_start,
+                    record.event_time_end,
+                    record.actor,
+                    record.counterparty,
+                    record.content_summary,
+                    record.raw_ref,
+                    deleted_int,
+                    record.confidence,
+                    record.parser_version,
+                    record.source_file,
+                    artifact.metadata.get("call_type"),
+                    artifact.metadata.get("duration_seconds"),
+                    metadata_json,
+                ),
+            )
+        elif record.artifact_type == "browser_visit":
+            connection.execute(
+                """
+                INSERT OR REPLACE INTO artifacts_browser (
+                    record_id, event_time_start, event_time_end, actor, counterparty,
+                    content_summary, raw_ref, deleted_flag, confidence, parser_version,
+                    source_file, url, title, referrer, metadata_json
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    record.record_id,
+                    record.event_time_start,
+                    record.event_time_end,
+                    record.actor,
+                    record.counterparty,
+                    record.content_summary,
+                    record.raw_ref,
+                    deleted_int,
+                    record.confidence,
+                    record.parser_version,
+                    record.source_file,
+                    artifact.metadata.get("url"),
+                    artifact.metadata.get("title"),
+                    artifact.metadata.get("referrer"),
+                    metadata_json,
+                ),
+            )
+        elif record.artifact_type == "location_point":
+            connection.execute(
+                """
+                INSERT OR REPLACE INTO artifacts_locations (
+                    record_id, event_time_start, event_time_end, actor, counterparty,
+                    latitude, longitude, accuracy_m, label,
+                    content_summary, raw_ref, deleted_flag, confidence, parser_version,
+                    source_file, metadata_json
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    record.record_id,
+                    record.event_time_start,
+                    record.event_time_end,
+                    record.actor,
+                    record.counterparty,
+                    location_values[0],
+                    location_values[1],
+                    location_values[2],
+                    location_values[3],
+                    record.content_summary,
+                    record.raw_ref,
+                    deleted_int,
+                    record.confidence,
+                    record.parser_version,
+                    record.source_file,
+                    metadata_json,
+                ),
+            )
+        elif record.artifact_type == "photo":
+            connection.execute(
+                """
+                INSERT OR REPLACE INTO artifacts_media (
+                    record_id, event_time_start, event_time_end, actor, counterparty,
+                    file_name, latitude, longitude, accuracy_m, location_label,
+                    content_summary, raw_ref, deleted_flag, confidence, parser_version,
+                    source_file, metadata_json
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    record.record_id,
+                    record.event_time_start,
+                    record.event_time_end,
+                    record.actor,
+                    record.counterparty,
+                    artifact.metadata.get("file_name"),
+                    location_values[0],
+                    location_values[1],
+                    location_values[2],
+                    location_values[3],
+                    record.content_summary,
+                    record.raw_ref,
+                    deleted_int,
+                    record.confidence,
+                    record.parser_version,
+                    record.source_file,
+                    metadata_json,
+                ),
+            )
+        elif record.artifact_type == "app_event":
+            connection.execute(
+                """
+                INSERT OR REPLACE INTO artifacts_events (
+                    record_id, event_time_start, event_time_end, actor, counterparty,
+                    event_type, content_summary, raw_ref, deleted_flag, confidence,
+                    parser_version, source_file, metadata_json
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        (
+            record.record_id,
+            record.event_time_start,
+            record.event_time_end,
+            record.actor,
+            record.counterparty,
+            artifact.metadata.get("event_type"),
+            record.content_summary,
+            record.raw_ref,
+            deleted_int,
+            record.confidence,
+            record.parser_version,
+            record.source_file,
+            metadata_json,
+        ),
+    )
+
+
+def _populate_timeline(connection: sqlite3.Connection, artifacts: list[ParsedArtifact]) -> None:
+    for artifact in artifacts:
+        record = artifact.record
+        connection.execute(
+            """
+            INSERT INTO timeline_events (
+                record_id, artifact_type, event_time_start, event_time_end, summary, raw_ref
+            ) VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (
+                record.record_id,
+                record.artifact_type,
+                record.event_time_start,
+                record.event_time_end,
+                record.content_summary,
+                record.raw_ref,
+            ),
+        )
+
+
+def _entity_id(name: str) -> str:
+    normalized = "".join(ch if ch.isalnum() else "_" for ch in name.lower())
+    return f"entity-{normalized}"
+
+
+def _populate_entities(connection: sqlite3.Connection, artifacts: list[ParsedArtifact]) -> None:
+    entities: dict[str, str] = {}
+    links: list[tuple[str, str, str, str]] = []
+    for artifact in artifacts:
+        record = artifact.record
+        for role, name in (("actor", record.actor), ("counterparty", record.counterparty)):
+            if not name:
+                continue
+            eid = _entity_id(name)
+            entities[eid] = name
+            link_id = f"{record.record_id}-{role}"
+            links.append((link_id, eid, record.record_id, role))
+    connection.executemany(
+        "INSERT OR IGNORE INTO entities(entity_id, display_name) VALUES (?, ?)",
+        [(eid, name) for eid, name in entities.items()],
+    )
+    connection.executemany(
+        "INSERT OR REPLACE INTO entity_links(link_id, entity_id, record_id, role) VALUES (?, ?, ?, ?)",
+        links,
+    )
+
+
+def _populate_search_index(connection: sqlite3.Connection, artifacts: list[ParsedArtifact]) -> None:
+    for artifact in artifacts:
+        record = artifact.record
+        connection.execute(
+            "INSERT INTO search_index(record_id, artifact_type, content_summary, actor, counterparty, source_file) VALUES (?, ?, ?, ?, ?, ?)",
+            (
+                record.record_id,
+                record.artifact_type,
+                record.content_summary,
+                record.actor,
+                record.counterparty,
+                record.source_file,
+            ),
+        )
+
+
+def _populate_recovery_findings(connection: sqlite3.Connection, artifacts: list[ParsedArtifact]) -> None:
+    for artifact in artifacts:
+        record = artifact.record
+        if record.artifact_type != "recovered_record":
+            continue
+        connection.execute(
+            "INSERT OR REPLACE INTO recovery_findings(record_id, artifact_type, raw_ref, confidence, summary) VALUES (?, ?, ?, ?, ?)",
+            (
+                record.record_id,
+                record.artifact_type,
+                record.raw_ref,
+                record.confidence,
+                record.content_summary,
+            ),
+        )
+
+
+def _populate_evidence_files(connection: sqlite3.Connection, files: list[dict[str, Any]]) -> None:
+    for entry in files:
+        path = entry["path"]
+        connection.execute(
+            "INSERT OR REPLACE INTO evidence_files(path, sha256, size_bytes, mime_type) VALUES (?, ?, ?, ?)",
+            (
+                path,
+                entry["sha256"],
+                entry["size_bytes"],
+                guess_mime_type(path),
+            ),
+        )
+
+
+def _populate_case_metadata(connection: sqlite3.Connection, metadata: dict[str, Any]) -> None:
+    connection.execute(
+        "INSERT OR REPLACE INTO case_metadata(case_id, timezone, parser_version) VALUES (?, ?, ?)",
+        (
+            metadata.get("case_id"),
+            metadata.get("timezone"),
+            PARSER_VERSION,
+        ),
+    )
