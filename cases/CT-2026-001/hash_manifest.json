@@ -1,12 +1,12 @@
 {
   "case_id": "CT-2026-001",
   "algorithm": "sha256",
-  "generated_at": "2026-03-15T21:54:31.014614+00:00",
+  "generated_at": "2026-03-15T22:14:57Z",
   "files": [
     {
       "path": "files/README.md",
-      "sha256": "2741d561dc35f83506cada82f24a73fb35ab437f536f6e9d8a7f2468f601bac0",
-      "size_bytes": 343
+      "sha256": "cc681b59eba1cd31fc8ffd961c22c26cd65d77ac53e483458c5ba007909b1946",
+      "size_bytes": 587
     },
     {
       "path": "files/databases/waypoint_core.db",

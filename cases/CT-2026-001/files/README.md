@@ -1,9 +1,7 @@
-# Raw Files Placeholder
+# Raw Files Mirror
 
-This directory mirrors the acquired app path under `/data/user/0/com.casetrace.waypoint/`.
+This directory mirrors the acquired app path at `/data/user/0/com.casetrace.waypoint/`.
 
-- `databases/` holds placeholder SQLite and WAL files for Phase 0.
-- `exports/` holds structured synthetic exports such as location traces.
-- `logs/` holds structured app event logs.
-- `media/` holds placeholder photo files.
+Run `python acquisition/extract_case.py` to refresh this folder. The script recreates the `databases/`, `exports/`, `logs/`, and `media/` subdirectories, streams the app files through `run-as com.casetrace.waypoint tar -cf - .`, and recomputes file integrity metadata. `README.md` stays in place so the documentation survives repeated captures.
 
+The live case bundle contains the latest acquisition, which later phases parse and normalize; do not mutate the raw files directly.
