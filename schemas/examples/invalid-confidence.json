@@ -1,0 +1,21 @@
+{
+  "artifact_type": "photo",
+  "source_file": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_192000.jpg",
+  "record_id": "photo-099",
+  "event_time_start": "2026-03-12T23:20:00Z",
+  "event_time_end": "2026-03-12T23:20:00Z",
+  "actor": "Jordan Vega",
+  "counterparty": null,
+  "location": {
+    "latitude": 40.7468,
+    "longitude": -73.9777,
+    "accuracy_m": 5.0,
+    "label": "Market Square Hotel"
+  },
+  "content_summary": "Confidence is out of range for schema testing.",
+  "raw_ref": "file://files/media/IMG_20260312_192000.jpg",
+  "deleted_flag": false,
+  "confidence": 1.2,
+  "parser_version": "phase0-spec/1.0.0"
+}
+

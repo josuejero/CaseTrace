@@ -1,0 +1,8 @@
+PHASE0 SQLITE PLACEHOLDER
+logical_name=waypoint_core.db
+package=com.casetrace.waypoint
+tables=messages,calls
+message_rows=8
+call_rows=4
+notes=This placeholder stands in for a Room-backed SQLite database generated in a later phase.
+

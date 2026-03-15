@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://casetrace.local/schemas/case-metadata.schema.json",
+  "title": "CaseMetadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "title",
+    "subject",
+    "seed_app",
+    "device",
+    "timezone",
+    "case_folder",
+    "acquisition",
+    "artifact_scope",
+    "validation_dataset"
+  ],
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "const": "CT-2026-001"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["display_name", "synthetic"],
+      "properties": {
+        "display_name": {
+          "type": "string",
+          "const": "Jordan Vega"
+        },
+        "synthetic": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "seed_app": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["package_name", "label", "version"],
+      "properties": {
+        "package_name": {
+          "type": "string",
+          "const": "com.casetrace.waypoint"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "device": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["logical_id", "adb_serial", "platform"],
+      "properties": {
+        "logical_id": {
+          "type": "string",
+          "const": "pixel7-api34-emulator"
+        },
+        "adb_serial": {
+          "type": "string",
+          "const": "emulator-5554"
+        },
+        "platform": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "timezone": {
+      "type": "string",
+      "const": "America/New_York"
+    },
+    "case_folder": {
+      "type": "string",
+      "const": "cases/CT-2026-001/"
+    },
+    "acquisition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_path", "method", "acquired_at"],
+      "properties": {
+        "source_path": {
+          "type": "string",
+          "const": "/data/user/0/com.casetrace.waypoint/"
+        },
+        "method": {
+          "type": "string",
+          "pattern": "^adb exec-out run-as com\\.casetrace\\.waypoint .+$"
+        },
+        "acquired_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+        }
+      }
+    },
+    "artifact_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_types", "report_format"],
+      "properties": {
+        "artifact_types": {
+          "type": "array",
+          "minItems": 7,
+          "maxItems": 7,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "report_format": {
+          "type": "string",
+          "const": "HTML"
+        }
+      }
+    },
+    "validation_dataset": {
+      "type": "string",
+      "const": "validation/case_ct_2026_001_ground_truth.json"
+    }
+  }
+}
+

@@ -1,0 +1,62 @@
+{
+  "case_id": "CT-2026-001",
+  "algorithm": "sha256",
+  "generated_at": "2026-03-13T01:20:00Z",
+  "files": [
+    {
+      "path": "files/README.md",
+      "sha256": "2741d561dc35f83506cada82f24a73fb35ab437f536f6e9d8a7f2468f601bac0",
+      "size_bytes": 343
+    },
+    {
+      "path": "files/databases/waypoint_core.db",
+      "sha256": "2ad216e5e727a963c62c2aa7715b81abe262eb88df27963124f93fc99a0bd346",
+      "size_bytes": 232
+    },
+    {
+      "path": "files/databases/waypoint_core.db-wal",
+      "sha256": "e40edce427ffaa46d1652db2de2367beef1b809897cf8c026d6c2fe3a04986e2",
+      "size_bytes": 198
+    },
+    {
+      "path": "files/databases/waypoint_web.db",
+      "sha256": "534c06db39982de53b73d98d1f72467921bd15f494b1d46a1680d666523ad5fc",
+      "size_bytes": 220
+    },
+    {
+      "path": "files/databases/waypoint_web.db-wal",
+      "sha256": "53338c1526970e0213329b454b38cc435edf4a94c418f6ef249d1fa773e2bb0a",
+      "size_bytes": 211
+    },
+    {
+      "path": "files/exports/location_trace.json",
+      "sha256": "ae47d09d5db6c710fef0f7e8aa09ff852d352844d8d4cf027779ce3c56d3845d",
+      "size_bytes": 1811
+    },
+    {
+      "path": "files/logs/app-events-20260312.jsonl",
+      "sha256": "c78e1902412380aba805e89a95f8f136d601ae269d93d104e41c35d8f9773f1a",
+      "size_bytes": 1055
+    },
+    {
+      "path": "files/media/IMG_20260312_091300.jpg",
+      "sha256": "17c67116e17a334103362cdfbd9883da552150db17242605b5cac8de405ac262",
+      "size_bytes": 209
+    },
+    {
+      "path": "files/media/IMG_20260312_122500.jpg",
+      "sha256": "cf6283ca505dd19338430bfe15a569c16d085f8bd7c7bb0d29f32265e8d868a2",
+      "size_bytes": 203
+    },
+    {
+      "path": "files/media/IMG_20260312_171200.jpg",
+      "sha256": "7fa3017d6edf21d6b78852abb7728215ea695c4e6261352445840b9b3cc7de84",
+      "size_bytes": 208
+    },
+    {
+      "path": "files/media/IMG_20260312_192000.jpg",
+      "sha256": "42d8c6501d0d04594d22ef87a0512450dc3bd0865b19c06b00b2fa34bd827fce",
+      "size_bytes": 211
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "artifact_type": "photo",
+  "source_file": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_091300.jpg",
+  "record_id": "photo-001",
+  "event_time_start": "2026-03-12T13:13:00Z",
+  "event_time_end": "2026-03-12T13:13:00Z",
+  "actor": "Jordan Vega",
+  "counterparty": null,
+  "location": {
+    "latitude": 40.7489,
+    "longitude": -73.9854,
+    "accuracy_m": 6.0,
+    "label": "North Pier Garage"
+  },
+  "content_summary": "Photo of a garage level marker with synthetic EXIF location data.",
+  "raw_ref": "file://files/media/IMG_20260312_091300.jpg",
+  "deleted_flag": false,
+  "confidence": 0.95,
+  "parser_version": "phase0-spec/1.0.0"
+}
+

@@ -1,0 +1,16 @@
+{
+  "artifact_type": "recovered_record",
+  "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db-wal",
+  "record_id": "rec-001",
+  "event_time_start": "2026-03-12T11:48:00Z",
+  "event_time_end": "2026-03-12T11:48:00Z",
+  "actor": "Jordan Vega",
+  "counterparty": "Mira Chen",
+  "location": null,
+  "content_summary": "Recovered deleted draft asking to use the Harbor Cafe rear entrance.",
+  "raw_ref": "db://files/databases/waypoint_core.db-wal#table=messages_deleted&rowid=1",
+  "deleted_flag": true,
+  "confidence": 0.58,
+  "parser_version": "phase0-spec/1.0.0"
+}
+

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://casetrace.local/schemas/hash-manifest.schema.json",
+  "title": "HashManifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["case_id", "algorithm", "generated_at", "files"],
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "const": "CT-2026-001"
+    },
+    "algorithm": {
+      "type": "string",
+      "const": "sha256"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+    },
+    "files": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256", "size_bytes"],
+        "properties": {
+          "path": {
+            "type": "string",
+            "pattern": "^files/.+$"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "size_bytes": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    }
+  }
+}
+

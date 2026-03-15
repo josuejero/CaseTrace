@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://casetrace.local/schemas/ground-truth-dataset.schema.json",
+  "title": "GroundTruthDataset",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "dataset_name",
+    "dataset_version",
+    "timezone",
+    "narrative_date_local",
+    "record_count",
+    "artifact_counts",
+    "records",
+    "cross_artifact_correlations"
+  ],
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "const": "CT-2026-001"
+    },
+    "dataset_name": {
+      "type": "string",
+      "const": "case_ct_2026_001_ground_truth"
+    },
+    "dataset_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "timezone": {
+      "type": "string",
+      "const": "America/New_York"
+    },
+    "narrative_date_local": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "record_count": {
+      "type": "integer",
+      "const": 42
+    },
+    "artifact_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "message",
+        "call",
+        "browser_visit",
+        "location_point",
+        "photo",
+        "app_event",
+        "recovered_record"
+      ],
+      "properties": {
+        "message": { "type": "integer", "const": 8 },
+        "call": { "type": "integer", "const": 4 },
+        "browser_visit": { "type": "integer", "const": 6 },
+        "location_point": { "type": "integer", "const": 10 },
+        "photo": { "type": "integer", "const": 4 },
+        "app_event": { "type": "integer", "const": 8 },
+        "recovered_record": { "type": "integer", "const": 2 }
+      }
+    },
+    "records": {
+      "type": "array",
+      "minItems": 42,
+      "maxItems": 42,
+      "items": {
+        "type": "object"
+      }
+    },
+    "cross_artifact_correlations": {
+      "type": "array",
+      "minItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["correlation_id", "linked_record_ids", "summary"],
+        "properties": {
+          "correlation_id": {
+            "type": "string",
+            "pattern": "^corr-[0-9]{3}$"
+          },
+          "linked_record_ids": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z]+-[0-9]{3}$"
+            }
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}
+

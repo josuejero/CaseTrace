@@ -1,0 +1,18 @@
+{
+  "case_id": "CT-2026-001",
+  "dataset_file": "validation/case_ct_2026_001_ground_truth.json",
+  "expected_record_count": 42,
+  "expected_artifact_counts": {
+    "message": 8,
+    "call": 4,
+    "browser_visit": 6,
+    "location_point": 10,
+    "photo": 4,
+    "app_event": 8,
+    "recovered_record": 2
+  },
+  "expected_deleted_record_count": 2,
+  "minimum_cross_artifact_correlations": 12,
+  "formal_report_format": "HTML"
+}
+

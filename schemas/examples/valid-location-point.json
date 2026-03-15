@@ -1,0 +1,21 @@
+{
+  "artifact_type": "location_point",
+  "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json",
+  "record_id": "loc-001",
+  "event_time_start": "2026-03-12T12:05:00Z",
+  "event_time_end": "2026-03-12T12:05:00Z",
+  "actor": "Jordan Vega",
+  "counterparty": null,
+  "location": {
+    "latitude": 40.7527,
+    "longitude": -73.9772,
+    "accuracy_m": 12.0,
+    "label": "Union Transit Hall"
+  },
+  "content_summary": "Morning departure ping near Union Transit Hall.",
+  "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[0]",
+  "deleted_flag": false,
+  "confidence": 0.98,
+  "parser_version": "phase0-spec/1.0.0"
+}
+

@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://casetrace.local/schemas/expected-metrics.schema.json",
+  "title": "ExpectedMetrics",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "dataset_file",
+    "expected_record_count",
+    "expected_artifact_counts",
+    "expected_deleted_record_count",
+    "minimum_cross_artifact_correlations",
+    "formal_report_format"
+  ],
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "const": "CT-2026-001"
+    },
+    "dataset_file": {
+      "type": "string",
+      "const": "validation/case_ct_2026_001_ground_truth.json"
+    },
+    "expected_record_count": {
+      "type": "integer",
+      "const": 42
+    },
+    "expected_artifact_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "message",
+        "call",
+        "browser_visit",
+        "location_point",
+        "photo",
+        "app_event",
+        "recovered_record"
+      ],
+      "properties": {
+        "message": { "type": "integer", "const": 8 },
+        "call": { "type": "integer", "const": 4 },
+        "browser_visit": { "type": "integer", "const": 6 },
+        "location_point": { "type": "integer", "const": 10 },
+        "photo": { "type": "integer", "const": 4 },
+        "app_event": { "type": "integer", "const": 8 },
+        "recovered_record": { "type": "integer", "const": 2 }
+      }
+    },
+    "expected_deleted_record_count": {
+      "type": "integer",
+      "const": 2
+    },
+    "minimum_cross_artifact_correlations": {
+      "type": "integer",
+      "minimum": 12
+    },
+    "formal_report_format": {
+      "type": "string",
+      "const": "HTML"
+    }
+  }
+}
+

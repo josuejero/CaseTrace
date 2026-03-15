@@ -1,0 +1,39 @@
+{
+  "case_id": "CT-2026-001",
+  "title": "CaseTrace Synthetic Communications and Travel Case",
+  "subject": {
+    "display_name": "Jordan Vega",
+    "synthetic": true
+  },
+  "seed_app": {
+    "package_name": "com.casetrace.waypoint",
+    "label": "Waypoint",
+    "version": "0.1.0-phase0"
+  },
+  "device": {
+    "logical_id": "pixel7-api34-emulator",
+    "adb_serial": "emulator-5554",
+    "platform": "Android 14 (API 34)"
+  },
+  "timezone": "America/New_York",
+  "case_folder": "cases/CT-2026-001/",
+  "acquisition": {
+    "source_path": "/data/user/0/com.casetrace.waypoint/",
+    "method": "adb exec-out run-as com.casetrace.waypoint tar -cf - .",
+    "acquired_at": "2026-03-13T01:15:00Z"
+  },
+  "artifact_scope": {
+    "artifact_types": [
+      "message",
+      "call",
+      "browser_visit",
+      "location_point",
+      "photo",
+      "app_event",
+      "recovered_record"
+    ],
+    "report_format": "HTML"
+  },
+  "validation_dataset": "validation/case_ct_2026_001_ground_truth.json"
+}
+

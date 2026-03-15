@@ -1,0 +1,8 @@
+PHASE0 WAL PLACEHOLDER
+logical_name=waypoint_core.db-wal
+package=com.casetrace.waypoint
+recovered_rows=1
+table=messages_deleted
+rowid=1
+notes=Recovered deleted draft for Harbor Cafe rear entrance.
+

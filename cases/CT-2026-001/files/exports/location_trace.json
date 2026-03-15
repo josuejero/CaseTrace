@@ -1,0 +1,76 @@
+{
+  "case_id": "CT-2026-001",
+  "points": [
+    {
+      "timestamp_utc": "2026-03-12T12:05:00Z",
+      "label": "Union Transit Hall",
+      "latitude": 40.7527,
+      "longitude": -73.9772,
+      "accuracy_m": 12.0
+    },
+    {
+      "timestamp_utc": "2026-03-12T12:28:00Z",
+      "label": "Eastline Books",
+      "latitude": 40.7546,
+      "longitude": -73.9831,
+      "accuracy_m": 9.5
+    },
+    {
+      "timestamp_utc": "2026-03-12T13:16:00Z",
+      "label": "North Pier Garage",
+      "latitude": 40.7489,
+      "longitude": -73.9854,
+      "accuracy_m": 14.0
+    },
+    {
+      "timestamp_utc": "2026-03-12T15:52:00Z",
+      "label": "Harbor Cafe",
+      "latitude": 40.7418,
+      "longitude": -73.9892,
+      "accuracy_m": 8.0
+    },
+    {
+      "timestamp_utc": "2026-03-12T16:27:00Z",
+      "label": "Riverfront Plaza",
+      "latitude": 40.7406,
+      "longitude": -73.9867,
+      "accuracy_m": 10.0
+    },
+    {
+      "timestamp_utc": "2026-03-12T18:10:00Z",
+      "label": "East Market Arcade",
+      "latitude": 40.7384,
+      "longitude": -73.9823,
+      "accuracy_m": 11.5
+    },
+    {
+      "timestamp_utc": "2026-03-12T20:45:00Z",
+      "label": "Riverside Market",
+      "latitude": 40.7441,
+      "longitude": -73.9801,
+      "accuracy_m": 7.8
+    },
+    {
+      "timestamp_utc": "2026-03-12T21:50:00Z",
+      "label": "Market Square Hotel",
+      "latitude": 40.7468,
+      "longitude": -73.9777,
+      "accuracy_m": 9.0
+    },
+    {
+      "timestamp_utc": "2026-03-12T23:12:00Z",
+      "label": "North Pier Garage",
+      "latitude": 40.749,
+      "longitude": -73.9852,
+      "accuracy_m": 13.0
+    },
+    {
+      "timestamp_utc": "2026-03-13T00:02:00Z",
+      "label": "Night Ferry Terminal",
+      "latitude": 40.7511,
+      "longitude": -73.9905,
+      "accuracy_m": 15.0
+    }
+  ]
+}
+

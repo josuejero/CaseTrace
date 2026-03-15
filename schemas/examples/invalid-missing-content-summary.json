@@ -1,0 +1,15 @@
+{
+  "artifact_type": "message",
+  "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db",
+  "record_id": "msg-099",
+  "event_time_start": "2026-03-12T12:10:00Z",
+  "event_time_end": "2026-03-12T12:10:00Z",
+  "actor": "Mira Chen",
+  "counterparty": "Jordan Vega",
+  "location": null,
+  "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=99",
+  "deleted_flag": false,
+  "confidence": 0.99,
+  "parser_version": "phase0-spec/1.0.0"
+}
+

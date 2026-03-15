@@ -1,0 +1,16 @@
+{
+  "artifact_type": "app_event",
+  "source_file": "/data/user/0/com.casetrace.waypoint/logs/app-events-20260312.jsonl",
+  "record_id": "app-001",
+  "event_time_start": "2026-03-12T12:06:00Z",
+  "event_time_end": "2026-03-12T12:06:00Z",
+  "actor": "Jordan Vega",
+  "counterparty": null,
+  "location": null,
+  "content_summary": "Waypoint session start for the daily itinerary seed.",
+  "raw_ref": "file://files/logs/app-events-20260312.jsonl#line=1",
+  "deleted_flag": false,
+  "confidence": 0.94,
+  "parser_version": "phase0-spec/1.0.0"
+}
+
