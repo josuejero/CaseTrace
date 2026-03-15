@@ -1,0 +1,6 @@
+<resources>
+    <style name="Theme.CaseTraceWaypoint" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
+    </style>
+</resources>

@@ -1,0 +1,22 @@
+{
+  "formatVersion": 1,
+  "database": "com.casetrace.waypoint.data.local.WebDatabase",
+  "entities": [
+    {
+      "tableName": "browser_history",
+      "createSql": "CREATE TABLE IF NOT EXISTS `browser_history` (`id` INTEGER NOT NULL, `title` TEXT NOT NULL, `url` TEXT NOT NULL, `typed_url` INTEGER NOT NULL, `referrer` TEXT, `timestamp` TEXT NOT NULL, PRIMARY KEY(`id`))",
+      "fields": [
+        {"fieldPath": "id", "columnName": "id", "affinity": "INTEGER", "notNull": true, "primaryKeyPosition": 1},
+        {"fieldPath": "title", "columnName": "title", "affinity": "TEXT", "notNull": true},
+        {"fieldPath": "url", "columnName": "url", "affinity": "TEXT", "notNull": true},
+        {"fieldPath": "typedUrl", "columnName": "typed_url", "affinity": "INTEGER", "notNull": true},
+        {"fieldPath": "referrer", "columnName": "referrer", "affinity": "TEXT", "notNull": false},
+        {"fieldPath": "timestamp", "columnName": "timestamp", "affinity": "TEXT", "notNull": true}
+      ],
+      "indices": [],
+      "foreignKeys": [],
+      "primaryKey": {"autoGenerate": false, "columns": ["id"]}
+    }
+  ],
+  "views": []
+}

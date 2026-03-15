@@ -1,7 +1,7 @@
 {
   "case_id": "CT-2026-001",
   "algorithm": "sha256",
-  "generated_at": "2026-03-13T01:20:00Z",
+  "generated_at": "2026-03-15T21:54:31.014614+00:00",
   "files": [
     {
       "path": "files/README.md",
@@ -10,53 +10,63 @@
     },
     {
       "path": "files/databases/waypoint_core.db",
-      "sha256": "2ad216e5e727a963c62c2aa7715b81abe262eb88df27963124f93fc99a0bd346",
-      "size_bytes": 232
+      "sha256": "5eff61a997edc1d558b2ac2f00168d5ddc80cdbb6633a6c84aa483929bdba91c",
+      "size_bytes": 24576
+    },
+    {
+      "path": "files/databases/waypoint_core.db-shm",
+      "sha256": "8180db7ef5d9023f610b71119bd7ef391b312dd9d02560f864a3a1821cd9854a",
+      "size_bytes": 32768
     },
     {
       "path": "files/databases/waypoint_core.db-wal",
-      "sha256": "e40edce427ffaa46d1652db2de2367beef1b809897cf8c026d6c2fe3a04986e2",
-      "size_bytes": 198
+      "sha256": "222dc6468e5ea8d6c430c84c84dc4d38c28e2f7b468752aca7a02e9e41dc0b09",
+      "size_bytes": 61832
     },
     {
       "path": "files/databases/waypoint_web.db",
-      "sha256": "534c06db39982de53b73d98d1f72467921bd15f494b1d46a1680d666523ad5fc",
-      "size_bytes": 220
+      "sha256": "c1bdf3a1b8df2e00926b0823698d10de5919d6f21d17aedc0e60e6bf3855fb01",
+      "size_bytes": 8192
+    },
+    {
+      "path": "files/databases/waypoint_web.db-shm",
+      "sha256": "73e1dad9fbb61dc1163ae6b052b4879c93163244f1590b5d455abc58b4b4012b",
+      "size_bytes": 32768
     },
     {
       "path": "files/databases/waypoint_web.db-wal",
-      "sha256": "53338c1526970e0213329b454b38cc435edf4a94c418f6ef249d1fa773e2bb0a",
-      "size_bytes": 211
+      "sha256": "e9fdce731d514f12c305dd4453580f1327e3f86149e733cf61f1b31b339fe178",
+      "size_bytes": 16512
     },
     {
       "path": "files/exports/location_trace.json",
-      "sha256": "ae47d09d5db6c710fef0f7e8aa09ff852d352844d8d4cf027779ce3c56d3845d",
-      "size_bytes": 1811
+      "sha256": "5008ff46fdeda110f8e8cf7a0118a3e8473eccc11bbf4490f4f2ea8bc03c65d6",
+      "size_bytes": 1809
     },
     {
       "path": "files/logs/app-events-20260312.jsonl",
-      "sha256": "c78e1902412380aba805e89a95f8f136d601ae269d93d104e41c35d8f9773f1a",
-      "size_bytes": 1055
+      "sha256": "850375c3adac25024e7d03641dc0244f1b85b2e61099e278fdd24654ca8bb66e",
+      "size_bytes": 1094
     },
     {
       "path": "files/media/IMG_20260312_091300.jpg",
-      "sha256": "17c67116e17a334103362cdfbd9883da552150db17242605b5cac8de405ac262",
-      "size_bytes": 209
+      "sha256": "a6feb7461f51929e3353b28bf356e43868aaf80f1e496915329a12ed24bc49d3",
+      "size_bytes": 8340
     },
     {
       "path": "files/media/IMG_20260312_122500.jpg",
-      "sha256": "cf6283ca505dd19338430bfe15a569c16d085f8bd7c7bb0d29f32265e8d868a2",
-      "size_bytes": 203
+      "sha256": "8ac200fccec238bfac02516b12426339bf63fdd0026f969de37b329b541e6a51",
+      "size_bytes": 8156
     },
     {
       "path": "files/media/IMG_20260312_171200.jpg",
-      "sha256": "7fa3017d6edf21d6b78852abb7728215ea695c4e6261352445840b9b3cc7de84",
-      "size_bytes": 208
+      "sha256": "a9c189b3d64aa0eb1598847265d35c15f345c78541c164ef01818baa54403d84",
+      "size_bytes": 7987
     },
     {
       "path": "files/media/IMG_20260312_192000.jpg",
-      "sha256": "42d8c6501d0d04594d22ef87a0512450dc3bd0865b19c06b00b2fa34bd827fce",
-      "size_bytes": 211
+      "sha256": "e703f4c6f48eaf594de863f12e228d24e3cec19a8ff74403b4fed9a20990a8bc",
+      "size_bytes": 8205
     }
   ]
 }
