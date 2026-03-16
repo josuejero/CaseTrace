@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=70.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "casetrace"
 version = "0.1.0"
@@ -18,3 +22,16 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["jsonschema>=4.26,<5"]
+
+[tool.setuptools]
+py-modules = ["integrity"]
+
+[tool.setuptools.packages.find]
+include = [
+    "backend",
+    "backend.*",
+    "parser",
+    "parser.*",
+    "tools",
+    "tools.*",
+]
