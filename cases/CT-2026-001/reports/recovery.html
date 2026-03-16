@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Recovery Findings</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 1rem; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+    th { background: #f3f3f3; }
+    tr:nth-child(odd) { background: #fafafa; }
+    .summary { max-width: 320px; white-space: normal; }
+  </style>
+</head>
+<body>
+  <h1>WAL Recovery Findings</h1>
+  <p>Use this report to understand what was observed, recovered, or inferred from WAL-backed state.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>record_id</th>
+        <th>artifact_type</th>
+        <th>finding_label</th>
+        <th>confidence</th>
+        <th>summary</th>
+        <th>raw_ref</th>
+        <th>database_file</th>
+        <th>wal_file</th>
+        <th>parser_method</th>
+        <th>parser_version</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="record_id">rec-001</td>
+        <td class="artifact_type">recovered_record</td>
+        <td class="finding_label">inferred</td>
+        <td class="confidence">0.5299999999999999</td>
+        <td class="summary">Inferred deleted message from WAL: Draft asking to use the Harbor Cafe rear entrance.</td>
+        <td class="raw_ref">db://files/databases/waypoint_core.db-wal#table=messages&amp;rowid=101</td>
+        <td class="database_file">/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db</td>
+        <td class="wal_file">/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db-wal</td>
+        <td class="parser_method">wal_recovery</td>
+        <td class="parser_version">phase0-spec/1.0.0</td>
+      </tr>
+      <tr>
+        <td class="record_id">rec-002</td>
+        <td class="artifact_type">recovered_record</td>
+        <td class="finding_label">inferred</td>
+        <td class="confidence">0.5</td>
+        <td class="summary">Inferred deleted browser lookup for https://maps.example/alleys/service-entry from WAL.</td>
+        <td class="raw_ref">db://files/databases/waypoint_web.db-wal#table=browser_history&amp;rowid=wal-browser-https://maps.example/alleys/service-entry</td>
+        <td class="database_file">/data/user/0/com.casetrace.waypoint/databases/waypoint_web.db</td>
+        <td class="wal_file">/data/user/0/com.casetrace.waypoint/databases/waypoint_web.db-wal</td>
+        <td class="parser_method">wal_recovery</td>
+        <td class="parser_version">phase0-spec/1.0.0</td>
+      </tr>
+      <tr>
+        <td class="record_id">obs-browser_history-1</td>
+        <td class="artifact_type">browser_visit</td>
+        <td class="finding_label">observed</td>
+        <td class="confidence">0.92</td>
+        <td class="summary">Observed row 1 in browser_history within the main database (timestamp=2026-03-12T12:22:00Z).</td>
+        <td class="raw_ref">db://files/databases/waypoint_web.db#table=browser_history&amp;rowid=1</td>
+        <td class="database_file">/data/user/0/com.casetrace.waypoint/databases/waypoint_web.db</td>
+        <td class="wal_file">/data/user/0/com.casetrace.waypoint/databases/waypoint_web.db-wal</td>
+        <td class="parser_method">wal_recovery</td>
+        <td class="parser_version">phase0-spec/1.0.0</td>
+      </tr>
+      <tr>
+        <td class="record_id">obs-messages-2</td>
+        <td class="artifact_type">message</td>
+        <td class="finding_label">observed</td>
+        <td class="confidence">0.92</td>
+        <td class="summary">Observed row 2 in messages within the main database (timestamp=2026-03-12T12:12:00Z).</td>
+        <td class="raw_ref">db://files/databases/waypoint_core.db#table=messages&amp;rowid=2</td>
+        <td class="database_file">/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db</td>
+        <td class="wal_file">/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db-wal</td>
+        <td class="parser_method">wal_recovery</td>
+        <td class="parser_version">phase0-spec/1.0.0</td>
+      </tr>
+    </tbody>
+  </table>
+</body>
+</html>

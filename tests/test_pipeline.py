@@ -28,9 +28,27 @@ class PipelineTest(unittest.TestCase):
             self.assertTrue(db_path.exists())
             with sqlite3.connect(db_path) as conn:
                 self.assertEqual(conn.execute("SELECT COUNT(*) FROM artifacts_messages").fetchone()[0], 8)
-                self.assertEqual(conn.execute("SELECT COUNT(*) FROM recovery_findings").fetchone()[0], 2)
-                self.assertEqual(conn.execute("SELECT COUNT(*) FROM search_index").fetchone()[0], 42)
-                self.assertEqual(conn.execute("SELECT COUNT(*) FROM timeline_events").fetchone()[0], 42)
+                recovery_total = conn.execute("SELECT COUNT(*) FROM recovery_findings").fetchone()[0]
+                self.assertEqual(recovery_total, 4)
+                label_counts = {
+                    row[0]: row[1] for row in conn.execute("SELECT finding_label, COUNT(*) FROM recovery_findings GROUP BY finding_label")
+                }
+                self.assertEqual(label_counts.get("observed", 0), 2)
+                inferred_or_recovered = label_counts.get("inferred", 0) + label_counts.get("recovered", 0)
+                self.assertGreaterEqual(inferred_or_recovered, 2)
+                self.assertGreaterEqual(label_counts.get("inferred", 0), 1)
+                self.assertEqual(
+                    conn.execute("SELECT COUNT(*) FROM search_index").fetchone()[0],
+                    42,
+                )
+                self.assertEqual(
+                    conn.execute("SELECT COUNT(*) FROM timeline_events").fetchone()[0],
+                    42,
+                )
+                parser_methods = {row[0] for row in conn.execute("SELECT DISTINCT parser_method FROM recovery_findings")}
+                self.assertEqual(parser_methods, {"wal_recovery"})
+                database_files = {row[0] for row in conn.execute("SELECT DISTINCT database_file FROM recovery_findings")}
+                self.assertTrue(any("waypoint_core.db" in entry or "waypoint_web.db" in entry for entry in database_files))
                 case_timezone = json.loads((CASE_DIR / "case.json").read_text(encoding="utf-8"))["timezone"]
                 timezones = {row[0] for row in conn.execute("SELECT DISTINCT timezone FROM timeline_events")}
                 self.assertEqual(timezones, {case_timezone})

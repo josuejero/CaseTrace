@@ -7,7 +7,7 @@ from pathlib import Path
 from parser.parse_app_events import parse_app_events
 from parser.parse_browser import parse_browser
 from parser.parse_calls import parse_calls
-from parser.parse_deleted_sqlite import parse_deleted_sqlite
+from parser.wal_recovery import parse_wal_recovery
 from parser.parse_locations import parse_locations
 from parser.parse_messages import parse_messages
 from parser.parse_photos import parse_photos
@@ -45,9 +45,9 @@ class ParserModuleTest(unittest.TestCase):
         self.assertEqual(records[0].record.artifact_type, "app_event")
 
     def test_parse_deleted_records_filters(self) -> None:
-        records = parse_deleted_sqlite(CASE_DIR)
-        self.assertGreaterEqual(len(records), 2)
-        self.assertTrue(all(record.record.artifact_type == "recovered_record" for record in records))
+        result = parse_wal_recovery(CASE_DIR)
+        self.assertGreaterEqual(len(result.artifacts), 2)
+        self.assertTrue(all(record.record.artifact_type == "recovered_record" for record in result.artifacts))
 
 
 if __name__ == "__main__":

@@ -14,24 +14,23 @@ from .models import ArtifactRecordModel, PARSER_VERSION, ParsedArtifact
 from .parse_app_events import parse_app_events
 from .parse_browser import parse_browser
 from .parse_calls import parse_calls
-from .parse_deleted_sqlite import parse_deleted_sqlite
 from .parse_locations import parse_locations
 from .parse_messages import parse_messages
 from .parse_photos import parse_photos
+from .wal_recovery import RecoveryFinding, WalRecoveryResult, parse_wal_recovery
 
 
 def run_pipeline(case_dir: Path, parsed_dir: Path) -> list[ArtifactRecordModel]:
     """Parse raw evidence into normalized records and case DB."""
     parsed_dir.mkdir(parents=True, exist_ok=True)
-    parsed_artifacts = _collect_parsed_artifacts(case_dir)
+    parsed_artifacts, recovery_findings = _collect_parsed_artifacts(case_dir)
     normalized_artifacts = _apply_ground_truth(case_dir, parsed_artifacts)
     records = [artifact.record.model_dump() for artifact in normalized_artifacts]
     (parsed_dir / "artifact_records.json").write_text(json.dumps(records, indent=2), encoding="utf-8")
-    _write_case_db(parsed_dir / "case.db", normalized_artifacts, case_dir)
+    _write_case_db(parsed_dir / "case.db", normalized_artifacts, case_dir, recovery_findings)
     return [artifact.record for artifact in normalized_artifacts]
 
-
-def _collect_parsed_artifacts(case_dir: Path) -> list[ParsedArtifact]:
+def _collect_parsed_artifacts(case_dir: Path) -> tuple[list[ParsedArtifact], list[RecoveryFinding]]:
     parsers = [
         parse_messages,
         parse_calls,
@@ -39,12 +38,13 @@ def _collect_parsed_artifacts(case_dir: Path) -> list[ParsedArtifact]:
         parse_locations,
         parse_photos,
         parse_app_events,
-        parse_deleted_sqlite,
     ]
     artifacts: list[ParsedArtifact] = []
     for parser in parsers:
         artifacts.extend(parser(case_dir))
-    return artifacts
+    wal_result = parse_wal_recovery(case_dir)
+    artifacts.extend(wal_result.artifacts)
+    return artifacts, wal_result.findings
 
 
 def _apply_ground_truth(case_dir: Path, artifacts: list[ParsedArtifact]) -> list[ParsedArtifact]:
@@ -114,7 +114,7 @@ EVENT_TYPE_ORDER = [
 EVENT_TYPE_RANK = {etype: index for index, etype in enumerate(EVENT_TYPE_ORDER)}
 
 
-def _write_case_db(db_path: Path, artifacts: list[ParsedArtifact], case_dir: Path) -> None:
+def _write_case_db(db_path: Path, artifacts: list[ParsedArtifact], case_dir: Path, recovery_findings: list[RecoveryFinding]) -> None:
     manifest = load_json(case_dir / "hash_manifest.json")
     case_metadata = load_json(case_dir / "case.json")
     connection = sqlite3.connect(db_path)
@@ -125,7 +125,7 @@ def _write_case_db(db_path: Path, artifacts: list[ParsedArtifact], case_dir: Pat
         _populate_timeline(connection, artifacts, case_metadata)
         _populate_entities(connection, artifacts)
         _populate_search_index(connection, artifacts)
-        _populate_recovery_findings(connection, artifacts)
+        _populate_recovery_findings(connection, recovery_findings)
         _populate_evidence_files(connection, manifest.get("files", []))
         _populate_case_metadata(connection, case_metadata)
     connection.close()
@@ -280,7 +280,12 @@ def _schema_sql() -> str:
         artifact_type TEXT NOT NULL,
         raw_ref TEXT NOT NULL,
         confidence REAL NOT NULL,
-        summary TEXT
+        summary TEXT,
+        finding_label TEXT NOT NULL,
+        database_file TEXT NOT NULL,
+        wal_file TEXT,
+        parser_method TEXT NOT NULL,
+        parser_version TEXT NOT NULL
     );
     CREATE TABLE IF NOT EXISTS evidence_files (
         path TEXT PRIMARY KEY,
@@ -586,19 +591,26 @@ def _populate_search_index(connection: sqlite3.Connection, artifacts: list[Parse
         )
 
 
-def _populate_recovery_findings(connection: sqlite3.Connection, artifacts: list[ParsedArtifact]) -> None:
-    for artifact in artifacts:
-        record = artifact.record
-        if record.artifact_type != "recovered_record":
-            continue
+def _populate_recovery_findings(connection: sqlite3.Connection, findings: list[RecoveryFinding]) -> None:
+    for finding in findings:
         connection.execute(
-            "INSERT OR REPLACE INTO recovery_findings(record_id, artifact_type, raw_ref, confidence, summary) VALUES (?, ?, ?, ?, ?)",
+            """
+            INSERT OR REPLACE INTO recovery_findings(
+                record_id, artifact_type, raw_ref, confidence, summary,
+                finding_label, database_file, wal_file, parser_method, parser_version
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
             (
-                record.record_id,
-                record.artifact_type,
-                record.raw_ref,
-                record.confidence,
-                record.content_summary,
+                finding.record_id,
+                finding.artifact_type,
+                finding.raw_ref,
+                finding.confidence,
+                finding.summary,
+                finding.label,
+                finding.database_file,
+                finding.wal_file,
+                finding.parser_method,
+                finding.parser_version,
             ),
         )
 
