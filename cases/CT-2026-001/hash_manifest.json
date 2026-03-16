@@ -1,7 +1,7 @@
 {
   "case_id": "CT-2026-001",
   "algorithm": "sha256",
-  "generated_at": "2026-03-16T18:26:56Z",
+  "generated_at": "2026-03-16T18:45:56Z",
   "acquisition": {
     "acquired_at": "2026-03-13T01:15:00Z",
     "operator": "CaseTrace Lab Analyst",
@@ -19,7 +19,7 @@
     "version": "0.1.0-phase0"
   },
   "environment": {
-    "git_commit": "5cb8edaac58d44f70f0f9b568f2e4d5b2415892b"
+    "git_commit": "4d6fee9954cf5b4da39d669477b244ba63d8d0b6"
   },
   "parser_version": "phase0-spec/1.0.0",
   "files": [
