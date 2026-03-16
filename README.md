@@ -55,6 +55,15 @@ Phase 0 stops before building the Android app, FastAPI service, or React UI. Thi
 - Deleted evidence is limited to seeded SQLite WAL-derived records and carries reduced confidence.
 - Phase 0 artifacts include placeholder raw source files where later phases will generate true emulator acquisitions.
 - The repository is a portfolio lab, not a claim of courtroom readiness or forensic certification.
+- Phase 10 validation references NIST’s CFTT program and SWGDE guidance to document those limits, prove the parser still matches the frozen truth set, and make the limitations explicit for reviewers.
+
+### Tool limitations
+
+- Not a physical acquisition tool—only the seeded emulator files are parsed.
+- Does not bypass device protections or modify the target environment.
+- Synthetic artifacts only; the lab never ingests real user data.
+- Recovery logic is bounded to the seeded WAL content and explained elsewhere (Phase 6).
+- Not intended for unsupervised investigative work without independent validation.
 
 ## Validation Dataset
 
@@ -105,3 +114,9 @@ The verifier checks the JSON Schemas, valid and invalid example fixtures, case m
 ## Phase 9 Investigator UI & Reporting
 
 Phase 9 transforms the analysis artifacts into a demonstrable investigator workflow. The FastAPI backend now exposes the overview, timeline, artifacts, entity graph, search, and report endpoints that the React UI uses to render a tabbed experience (see `docs/phase9-investigator-ui.md`). `tools/phase9_report.py` generates the HTML/PDF export, re-hashes the manifest, appends the log entry, and powers the embedded report viewer. Capture polished screenshots for your portfolio with the steps in `docs/phase9-screenshots.md`.
+
+## Phase 10 Validation
+
+Phase 10 proves the parser output and documentation live up to the recruiter signal. Run `python tools/validate_phase10.py --case-dir cases/CT-2026-001` to recompute the validation report and rewrite `cases/CT-2026-001/reports/validation.md`. The script compares message counts, deleted rows, timeline locations, and photo EXIF timestamps against the frozen ground truth and exits non-zero whenever a mismatch occurs.
+
+Document the regression coverage by reading `docs/phase10-validation.md` (it also lists `tests/test_pipeline.py` and `tests/test_validation_report.py`), or open `cases/CT-2026-001/reports/validation.md` for the latest Phase 10 summary without rerunning the parser.

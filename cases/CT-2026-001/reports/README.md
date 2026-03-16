@@ -21,3 +21,13 @@ python tools/recovery_report.py --case-dir cases/CT-2026-001 --output-html cases
 ```
 
 Then open `reports/recovery.html` from `cases/CT-2026-001/reports` (for example via `python -m http.server` run from that directory) to review the observed/recovered/inferred findings along with their provenance.
+
+## Phase 10 validation report
+
+The Phase 10 validation script recomputes the ground-truth checks and writes a human-readable summary.
+
+```bash
+python tools/validate_phase10.py --case-dir cases/CT-2026-001
+```
+
+View the generated report at `reports/validation.md` or consult `docs/phase10-validation.md` for the QA checklist, test coverage, and the scripted limitations statement that references NIST CFTT / SWGDE.

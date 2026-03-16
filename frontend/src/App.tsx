@@ -30,6 +30,14 @@ const PANEL_TABS: { id: PanelId; label: string }[] = [
   { id: "report", label: "Report" },
 ];
 
+const LIMITATIONS = [
+  "Not a physical acquisition tool—only the seeded emulator files are parsed.",
+  "Does not bypass device protections or the target runtime.",
+  "Synthetic artifacts only; no real user data is ingested.",
+  "Recovery logic is bounded to the seeded WAL content and documented in Phase 6.",
+  "Not intended for unsupervised investigative use without independent validation.",
+];
+
 type OverviewResponse = {
   case_id?: string | null;
   title?: string | null;
@@ -520,6 +528,17 @@ export default function App() {
                           View evidence
                         </button>
                       </li>
+                    ))}
+                  </ul>
+                </article>
+                <article className="card">
+                  <h2>Limitations</h2>
+                  <p style={{ marginTop: 0, marginBottom: "0.65rem", fontSize: "0.9rem", color: "#475569" }}>
+                    Aligned with NIST’s CFTT program and SWGDE guidance.
+                  </p>
+                  <ul>
+                    {LIMITATIONS.map((item) => (
+                      <li key={item}>{item}</li>
                     ))}
                   </ul>
                 </article>
