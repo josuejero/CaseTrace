@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import argparse
-import hashlib
 import json
 import logging
 import platform
@@ -13,22 +12,29 @@ import sys
 import tarfile
 import tempfile
 import zipfile
-from datetime import datetime, timezone
 from pathlib import Path
-from typing import Iterable, List
+from typing import List
+
+from integrity import (
+    HASH_ALGORITHM,
+    append_processing_step,
+    capture_git_commit,
+    collect_file_entries,
+    container_image_digest,
+    examiner_name,
+    gather_file_summary,
+    utc_timestamp,
+    write_manifest,
+)
 
 
 SCRIPT_ROOT = Path(__file__).resolve().parent
 PROJECT_ROOT = SCRIPT_ROOT.parent
 DEFAULT_CASE_DIR = PROJECT_ROOT / "cases" / "CT-2026-001"
 DEFAULT_CASE_ID = "CT-2026-001"
+ACQUISITION_SCRIPT_VERSION = "phase2-acquisition/1.0.0"
 
 logger = logging.getLogger(__name__)
-
-
-def utc_timestamp(dt: datetime | None = None) -> str:
-    dt = dt or datetime.now(timezone.utc)
-    return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
 def load_case_metadata(case_dir: Path) -> dict:
@@ -137,29 +143,6 @@ def extract_tarball(tar_path: Path, target_dir: Path) -> None:
         tar.extractall(path=target_dir)
 
 
-def sha256_digest(path: Path) -> str:
-    digest = hashlib.sha256()
-    with path.open("rb") as handle:
-        for chunk in iter(lambda: handle.read(65536), b""):
-            digest.update(chunk)
-    return digest.hexdigest()
-
-
-def collect_file_entries(files_dir: Path, case_dir: Path) -> List[dict]:
-    entries = []
-    for path in sorted(files_dir.rglob("*")):
-        if not path.is_file():
-            continue
-        rel = path.relative_to(case_dir).as_posix()
-        entries.append(
-            {
-                "path": rel,
-                "sha256": sha256_digest(path),
-                "size_bytes": path.stat().st_size,
-            }
-        )
-    return entries
-
 def relative_to_or_str(path: Path, base: Path) -> str:
     try:
         return path.relative_to(base).as_posix()
@@ -180,6 +163,7 @@ def create_evidence_bundle(bundle_path: Path, case_dir: Path) -> None:
         case_dir / "case.json",
         case_dir / "files",
         case_dir / "hash_manifest.json",
+        case_dir / "processing_log.json",
         case_dir / "parsed",
         case_dir / "reports",
         case_dir / "validation",
@@ -202,11 +186,6 @@ def create_evidence_bundle(bundle_path: Path, case_dir: Path) -> None:
                 else:
                     zf.write(sub, arcname)
 
-
-def gather_file_summary(entries: Iterable[dict]) -> dict:
-    total_files = sum(1 for _ in entries)
-    total_bytes = sum(entry["size_bytes"] for entry in entries)
-    return {"file_count": total_files, "total_size_bytes": total_bytes}
 
 
 def main() -> None:
@@ -262,21 +241,51 @@ def main() -> None:
         shutil.rmtree(staging_dir, ignore_errors=True)
 
     entries = collect_file_entries(files_dir, case_dir)
+    summary = gather_file_summary(entries)
     manifest = {
         "case_id": case_id,
-        "algorithm": "sha256",
+        "algorithm": HASH_ALGORITHM,
         "generated_at": utc_timestamp(),
+        "acquisition": {
+            "acquired_at": case_metadata["acquisition"]["acquired_at"],
+            "operator": examiner_name(),
+            "script_version": ACQUISITION_SCRIPT_VERSION,
+            "device": case_metadata["device"],
+            "method": case_metadata["acquisition"]["method"],
+        },
+        "app": {
+            "package": case_metadata["seed_app"]["package_name"],
+            "label": case_metadata["seed_app"]["label"],
+            "version": case_metadata["seed_app"]["version"],
+        },
+        "environment": {
+            "git_commit": git_commit,
+            "container_image_digest": container_image_digest(),
+        },
+        "parser_version": "",
+        "report": {},
         "files": entries,
     }
-    manifest_path = case_dir / "hash_manifest.json"
-    write_json(manifest_path, manifest)
+    write_manifest(case_dir, manifest)
+    append_processing_step(
+        case_dir,
+        case_id,
+        stage="acquisition",
+        description="Captured emulator files and recorded hashes",
+        actor=examiner_name(),
+        details={
+            "script_version": ACQUISITION_SCRIPT_VERSION,
+            "host_os": host_os,
+            "hash_summary": summary,
+            "actions": [action["description"] for action in actions],
+        },
+    )
     actions.append({"timestamp": utc_timestamp(), "description": "Wrote hash_manifest.json"})
 
     bundle_path = bundle_path.resolve()
     create_evidence_bundle(bundle_path, case_dir)
     actions.append({"timestamp": utc_timestamp(), "description": "Created zipped evidence bundle"})
-
-    summary = gather_file_summary(entries)
+    manifest_path = case_dir / "hash_manifest.json"
     log_data = {
         "case_id": case_id,
         "acquired_at": utc_timestamp(),

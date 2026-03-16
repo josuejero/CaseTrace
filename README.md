@@ -93,3 +93,11 @@ The verifier checks the JSON Schemas, valid and invalid example fixtures, case m
 - The FastAPI search service now lives in `backend/main.py` and exposes the enhanced FTS5 index plus timeline context.
 - The React + Vite UI in `frontend/` provides the global search box, artifact filters with hit counts, snippet previews, and detail panel for raw references.
 - Detailed expectations and workflow notes are documented in `docs/phase7-search.md`, and the backend README explains how to run `uvicorn backend.main:app --reload`.
+
+## Phase 8 Chain-of-Custody Integrity
+
+- `cases/CT-2026-001/hash_manifest.json` is now a structured manifest that records every acquisition parameter (operator, device, script version, app version), the current parser/report context, the git/container digest, and the SHA-256 summary for every file in `files/`.
+- `cases/CT-2026-001/processing_log.json` captures acquisition → analysis → report steps with timestamps, actors, and hash summaries so another trained practitioner can see which transforms ran and when.
+- The backend exposes a `/integrity` endpoint that returns the manifest, the processing log, and a file-count summary; the React UI surfaces that data inside a dedicated Integrity panel so every workflow still looks like a lab notebook.
+- `tools/recovery_report.py` now re-hashes the bundle before report export, records the report digest in the manifest, and appends the final log entry. `acquisition/extract_case.py` and `tools/generate_seed_artifacts.py` reuse the shared `integrity.py` helpers so every SHA-256 pass and log step is consistent.
+- See `docs/phase8-integrity.md` for the NIST/OSAC/SWGDE–inspired rationale behind the manifest, log, and re-hash timings.

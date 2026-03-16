@@ -1,12 +1,26 @@
 import json
-import hashlib
 import shutil
 import sqlite3
 from pathlib import Path
-from datetime import datetime, timezone
 from fractions import Fraction
 
 from PIL import Image, ImageDraw
+
+from parser.common import load_json
+from parser.models import PARSER_VERSION
+from integrity import (
+    HASH_ALGORITHM,
+    append_processing_step,
+    capture_git_commit,
+    collect_file_entries,
+    container_image_digest,
+    examiner_name,
+    gather_file_summary,
+    sha256_digest,
+    utc_timestamp,
+    write_manifest,
+    write_processing_log,
+)
 
 CASE_DIR = Path('cases/CT-2026-001')
 FILES_DIR = CASE_DIR / 'files'
@@ -14,6 +28,7 @@ DB_DIR = FILES_DIR / 'databases'
 EXPORTS_DIR = FILES_DIR / 'exports'
 LOGS_DIR = FILES_DIR / 'logs'
 MEDIA_DIR = FILES_DIR / 'media'
+ACQUISITION_SCRIPT_VERSION = "phase2-acquisition/1.0.0"
 
 MESSAGES = [
     {
@@ -517,24 +532,88 @@ def _to_dms(value: float):
     )
 
 
-def update_hash_manifest():
-    files = []
-    for path in sorted(FILES_DIR.rglob('*')):
-        if path.is_file() and path.relative_to(CASE_DIR).parts[0] == 'files':
-            rel = path.relative_to(CASE_DIR)
-            hasher = hashlib.sha256()
-            with path.open('rb') as handle:
-                while chunk := handle.read(8192):
-                    hasher.update(chunk)
-            files.append({'path': f"{rel.as_posix()}", 'sha256': hasher.hexdigest(), 'size_bytes': path.stat().st_size})
-    manifest = {
-        'case_id': 'CT-2026-001',
-        'algorithm': 'sha256',
-        'generated_at': datetime.now(timezone.utc).isoformat(),
-        'files': files,
-    }
-    (CASE_DIR / 'hash_manifest.json').write_text(json.dumps(manifest, indent=JSON_INDENT))
+def _relative_to_or_str(path: Path, base: Path) -> str:
+    try:
+        return path.relative_to(base).as_posix()
+    except ValueError:
+        return str(path)
 
+
+def update_hash_manifest():
+    case_metadata = load_json(CASE_DIR / "case.json")
+    case_id = case_metadata["case_id"]
+    entries = collect_file_entries(FILES_DIR, CASE_DIR)
+    summary = gather_file_summary(entries)
+    environment = {"git_commit": capture_git_commit()}
+    digest = container_image_digest()
+    if digest:
+        environment["container_image_digest"] = digest
+    manifest = {
+        "case_id": case_id,
+        "algorithm": HASH_ALGORITHM,
+        "generated_at": utc_timestamp(),
+        "acquisition": {
+            "acquired_at": case_metadata["acquisition"]["acquired_at"],
+            "operator": examiner_name(),
+            "script_version": ACQUISITION_SCRIPT_VERSION,
+            "device": case_metadata["device"],
+            "method": case_metadata["acquisition"]["method"],
+        },
+        "app": {
+            "package": case_metadata["seed_app"]["package_name"],
+            "label": case_metadata["seed_app"]["label"],
+            "version": case_metadata["seed_app"]["version"],
+        },
+        "environment": environment,
+        "parser_version": PARSER_VERSION,
+        "files": entries,
+    }
+    report_file = CASE_DIR / "reports" / "recovery.html"
+    report_rel = _relative_to_or_str(report_file, CASE_DIR)
+    report_timestamp = utc_timestamp()
+    report_digest = sha256_digest(report_file) if report_file.exists() else None
+    manifest["report"] = {
+        "generated_at": report_timestamp,
+        "path": report_rel,
+        "sha256": report_digest,
+    }
+    manifest["generated_at"] = report_timestamp
+    write_manifest(CASE_DIR, manifest)
+    write_processing_log(CASE_DIR, {"case_id": case_id, "generated_at": utc_timestamp(), "steps": []})
+    append_processing_step(
+        CASE_DIR,
+        case_id,
+        stage="acquisition",
+        description="Seed files crafted in tools/generate_seed_artifacts",
+        actor=examiner_name(),
+        details={
+            "script_version": ACQUISITION_SCRIPT_VERSION,
+            "hash_summary": summary,
+        },
+    )
+    append_processing_step(
+        CASE_DIR,
+        case_id,
+        stage="analysis",
+        description="Normalized artifact fixtures produced",
+        actor=examiner_name(),
+        details={
+            "parser_version": PARSER_VERSION,
+            "hash_summary": summary,
+        },
+    )
+    append_processing_step(
+        CASE_DIR,
+        case_id,
+        stage="report_export",
+        description="Logged WAL recovery report sample",
+        actor=examiner_name(),
+        details={
+            "report_path": report_rel,
+            "report_sha256": report_digest,
+            "hash_summary": summary,
+        },
+    )
 
 def main():
     create_photos()

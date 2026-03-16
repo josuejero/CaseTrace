@@ -43,6 +43,140 @@ header h1 {
   font-size: 1rem;
 }
 
+.integrity-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.integrity-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.integrity-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.integrity-row strong {
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #475569;
+}
+
+.integrity-row span {
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.monospace {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+.processing-log {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.processing-log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+.processing-log-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.processing-log-step {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.85rem;
+  padding: 0.75rem;
+  background: #f8fafc;
+}
+
+.processing-log-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.stage-badge {
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.stage-acquisition {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.stage-analysis {
+  background: #fef9c3;
+  color: #92400e;
+}
+
+.stage-report_export {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.processing-log-step .description {
+  margin: 0;
+  color: #111827;
+  font-size: 0.9rem;
+}
+
+.processing-log-step .actor {
+  margin: 0.35rem 0 0;
+  font-size: 0.8rem;
+  color: #475569;
+}
+
+.detail-list {
+  margin: 0.35rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.detail-list li {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.65rem;
+  padding: 0.35rem 0.55rem;
+  background: #ffffff;
+  min-width: 120px;
+}
+
+.detail-list li strong {
+  display: block;
+  font-size: 0.65rem;
+  color: #475569;
+}
+
+.detail-list li span {
+  font-size: 0.85rem;
+  color: #111827;
+}
+
 .chip-row {
   margin-top: 0.75rem;
   display: flex;

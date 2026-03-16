@@ -22,3 +22,4 @@ VITE_API_URL=http://127.0.0.1:9000 npm run dev
 - Artifact-type chips with hit counts reported by the backend.
 - Result cards with snippet previews, metadata, and clickable detail panels.
 - Timeline context for each record plus raw reference/source information.
+- Integrity panel that surfaces the `/integrity` payload (manifest, environment, and processing log) alongside the search workflow.

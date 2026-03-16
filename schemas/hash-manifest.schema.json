@@ -4,7 +4,16 @@
   "title": "HashManifest",
   "type": "object",
   "additionalProperties": false,
-  "required": ["case_id", "algorithm", "generated_at", "files"],
+  "required": [
+    "case_id",
+    "algorithm",
+    "generated_at",
+    "acquisition",
+    "app",
+    "environment",
+    "parser_version",
+    "files"
+  ],
   "properties": {
     "case_id": {
       "type": "string",
@@ -18,6 +27,121 @@
       "type": "string",
       "format": "date-time",
       "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+    },
+    "acquisition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["acquired_at", "operator", "script_version", "device", "method"],
+      "properties": {
+        "acquired_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+        },
+        "operator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "script_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "device": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["logical_id", "adb_serial", "platform"],
+          "properties": {
+            "logical_id": {
+              "type": "string",
+              "const": "pixel7-api34-emulator"
+            },
+            "adb_serial": {
+              "type": "string",
+              "const": "emulator-5554"
+            },
+            "platform": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "method": {
+          "type": "string",
+          "pattern": "^adb exec-out run-as com\\.casetrace\\.waypoint .+$"
+        }
+      }
+    },
+    "app": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["package", "label", "version"],
+      "properties": {
+        "package": {
+          "type": "string",
+          "const": "com.casetrace.waypoint"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["git_commit"],
+      "properties": {
+        "git_commit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "container_image_digest": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "parser_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "report": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["generated_at", "path"],
+      "properties": {
+        "generated_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
     },
     "files": {
       "type": "array",
@@ -44,4 +168,3 @@
     }
   }
 }
-

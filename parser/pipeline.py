@@ -19,6 +19,17 @@ from .parse_locations import parse_locations
 from .parse_messages import parse_messages
 from .parse_photos import parse_photos
 from .wal_recovery import RecoveryFinding, WalRecoveryResult, parse_wal_recovery
+from integrity import (
+    append_processing_step,
+    capture_git_commit,
+    collect_file_entries,
+    container_image_digest,
+    gather_file_summary,
+    load_manifest,
+    utc_timestamp,
+    write_manifest,
+    examiner_name,
+)
 
 
 def run_pipeline(case_dir: Path, parsed_dir: Path) -> list[ArtifactRecordModel]:
@@ -116,8 +127,19 @@ EVENT_TYPE_RANK = {etype: index for index, etype in enumerate(EVENT_TYPE_ORDER)}
 
 
 def _write_case_db(db_path: Path, artifacts: list[ParsedArtifact], case_dir: Path, recovery_findings: list[RecoveryFinding]) -> None:
-    manifest = load_json(case_dir / "hash_manifest.json")
+    manifest = load_manifest(case_dir)
     case_metadata = load_json(case_dir / "case.json")
+    entries = collect_file_entries(case_dir / "files", case_dir)
+    summary = gather_file_summary(entries)
+    manifest["files"] = entries
+    manifest["parser_version"] = PARSER_VERSION
+    manifest["generated_at"] = utc_timestamp()
+    environment = manifest.setdefault("environment", {})
+    environment["git_commit"] = capture_git_commit()
+    digest = container_image_digest()
+    if digest:
+        environment["container_image_digest"] = digest
+    write_manifest(case_dir, manifest)
     connection = sqlite3.connect(db_path)
     with connection:
         connection.execute("PRAGMA journal_mode=WAL;")
@@ -130,6 +152,14 @@ def _write_case_db(db_path: Path, artifacts: list[ParsedArtifact], case_dir: Pat
         _populate_evidence_files(connection, manifest.get("files", []))
         _populate_case_metadata(connection, case_metadata)
     connection.close()
+    append_processing_step(
+        case_dir,
+        case_metadata["case_id"],
+        stage="analysis",
+        description="Normalized artifacts and refreshed hash manifest",
+        actor=examiner_name(),
+        details={"parser_version": PARSER_VERSION, "hash_summary": summary},
+    )
 
 
 def _schema_sql() -> str:
@@ -585,9 +615,9 @@ def _populate_search_index(
 ) -> None:
     rows = [artifact_search_row(artifact) for artifact in artifacts]
     rows.extend(file_search_rows(files))
-    placeholders = \",\".join(\"?\" for _ in SEARCH_COLUMNS)
-    column_list = \",\".join(SEARCH_COLUMNS)
-    statement = f\"INSERT INTO search_index({column_list}) VALUES ({placeholders})\"
+    placeholders = ",".join("?" for _ in SEARCH_COLUMNS)
+    column_list = ",".join(SEARCH_COLUMNS)
+    statement = f"INSERT INTO search_index({column_list}) VALUES ({placeholders})"
     for row in rows:
         values = [row.get(column) for column in SEARCH_COLUMNS]
         connection.execute(statement, values)

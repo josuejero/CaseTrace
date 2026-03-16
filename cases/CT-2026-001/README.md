@@ -16,10 +16,10 @@ This folder is the locked Phase 0 evidence bundle scaffold for the synthetic Cas
 
 - `case.json` records the case identity and acquisition context.
 - `files/` contains placeholder raw sources that mirror the app directory structure.
-- `hash_manifest.json` covers every file in `files/` with SHA-256.
+- `hash_manifest.json` covers every file in `files/` with SHA-256 plus the acquisition/parser/report metadata.
+- `processing_log.json` tracks the acquisition → analysis → report steps so every transform is documented.
 - `parsed/` is reserved for future normalized exports.
 - `reports/` is reserved for future HTML output.
 - `validation/` contains the canonical ground truth and expected metrics.
 
 The files in `files/` are Phase 0 placeholders. The JSON and JSONL sources already match the locked dataset, while the `.db`, `.db-wal`, and `.jpg` files stand in for later emulator-generated artifacts.
-

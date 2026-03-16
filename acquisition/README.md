@@ -37,7 +37,10 @@ The script performs the following discipline:
 
 - `cases/CT-2026-001/files/` – the live acquisition of `/data/user/0/com.casetrace.waypoint/`.
 - `cases/CT-2026-001/hash_manifest.json` – SHA-256 coverage for every file in `files/`.
+- `cases/CT-2026-001/processing_log.json` – acquisition → analysis → report entries that document every re-hash step.
 - `cases/CT-2026-001/acquisition_log.json` – timestamped metadata, actions, and file statistics.
 - `cases/CT-2026-001/CT-2026-001-evidence-bundle.zip` – a zipped bundle of `case.json`, `files/`, `hash_manifest.json`, `parsed/`, `reports/`, and `validation/`.
 
 For lab validation, always analyze a copy of the zipped bundle or the copied `files/` tree; never mutate the live acquisition artifacts.
+
+`docs/phase8-integrity.md` explains how the new manifest/log pair plus the `/integrity` endpoint align with NIST/OSAC/SWGDE guidance.

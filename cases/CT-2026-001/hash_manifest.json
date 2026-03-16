@@ -1,7 +1,27 @@
 {
   "case_id": "CT-2026-001",
   "algorithm": "sha256",
-  "generated_at": "2026-03-15T22:14:57Z",
+  "generated_at": "2026-03-16T15:24:02Z",
+  "acquisition": {
+    "acquired_at": "2026-03-13T01:15:00Z",
+    "operator": "CaseTrace Lab Analyst",
+    "script_version": "phase2-acquisition/1.0.0",
+    "device": {
+      "logical_id": "pixel7-api34-emulator",
+      "adb_serial": "emulator-5554",
+      "platform": "Android 14 (API 34)"
+    },
+    "method": "adb exec-out run-as com.casetrace.waypoint tar -cf - ."
+  },
+  "app": {
+    "package": "com.casetrace.waypoint",
+    "label": "Waypoint",
+    "version": "0.1.0-phase0"
+  },
+  "environment": {
+    "git_commit": "92f2306f71db92134084f77612998fc4e21f930f"
+  },
+  "parser_version": "phase0-spec/1.0.0",
   "files": [
     {
       "path": "files/README.md",
@@ -15,12 +35,12 @@
     },
     {
       "path": "files/databases/waypoint_core.db-shm",
-      "sha256": "8180db7ef5d9023f610b71119bd7ef391b312dd9d02560f864a3a1821cd9854a",
+      "sha256": "267e733eab89a7eca85560f69016a87dfb9aecb3beeb763f1ded9bf46d092394",
       "size_bytes": 32768
     },
     {
       "path": "files/databases/waypoint_core.db-wal",
-      "sha256": "222dc6468e5ea8d6c430c84c84dc4d38c28e2f7b468752aca7a02e9e41dc0b09",
+      "sha256": "0d08cb49995b25d1ab7344243f20b8ce7d581a3d08805295c55baf065a5159c7",
       "size_bytes": 61832
     },
     {
@@ -30,12 +50,12 @@
     },
     {
       "path": "files/databases/waypoint_web.db-shm",
-      "sha256": "73e1dad9fbb61dc1163ae6b052b4879c93163244f1590b5d455abc58b4b4012b",
+      "sha256": "5b9ca2b241c244761e087478ff51fd20321bc7837e04702b0d708438e896f928",
       "size_bytes": 32768
     },
     {
       "path": "files/databases/waypoint_web.db-wal",
-      "sha256": "e9fdce731d514f12c305dd4453580f1327e3f86149e733cf61f1b31b339fe178",
+      "sha256": "62a8c279d46b48bf787e314e5842f921cc37b681d57087466ef94f6465d190f5",
       "size_bytes": 16512
     },
     {
@@ -68,5 +88,10 @@
       "sha256": "e703f4c6f48eaf594de863f12e228d24e3cec19a8ff74403b4fed9a20990a8bc",
       "size_bytes": 8205
     }
-  ]
+  ],
+  "report": {
+    "generated_at": "2026-03-16T15:23:44Z",
+    "path": "reports/recovery.html",
+    "sha256": "005dd686ccf1ea71383857d90d7301f6a81adcdf59410bda7324e938eb79d358"
+  }
 }

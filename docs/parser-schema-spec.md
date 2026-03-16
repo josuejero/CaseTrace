@@ -69,7 +69,8 @@ The bundle metadata contracts live in:
 These contracts define:
 
 - `case.json` for case identity, device, package, timezone, acquisition path, acquisition method, report target, and validation dataset
-- `hash_manifest.json` for SHA-256 coverage of every raw file
+- `hash_manifest.json` for SHA-256 coverage of every raw file (plus acquisition/parser/report metadata)
+- `processing_log.json` for logging every acquisition, analysis, and report step
 - `validation/expected_metrics.json` for record totals, per-class counts, deleted-record totals, and correlation thresholds
 - `validation/case_ct_2026_001_ground_truth.json` for the canonical normalized records and cross-artifact correlations
 

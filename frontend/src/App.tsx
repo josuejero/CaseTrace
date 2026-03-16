@@ -54,6 +54,68 @@ type SearchResponse = {
   hits: SearchHit[];
 };
 
+type FileSummary = {
+  file_count: number;
+  total_size_bytes: number;
+};
+
+type IntegrityManifest = {
+  case_id: string;
+  algorithm: string;
+  generated_at: string;
+  acquisition: {
+    acquired_at: string;
+    operator: string;
+    script_version: string;
+    device: {
+      logical_id: string;
+      adb_serial: string;
+      platform: string;
+    };
+    method: string;
+  };
+  app: {
+    package: string;
+    label: string;
+    version: string;
+  };
+  environment: {
+    git_commit: string;
+    container_image_digest: string | null;
+  };
+  parser_version: string;
+  report?: {
+    generated_at: string;
+    path: string;
+    sha256: string | null;
+  };
+  files: {
+    path: string;
+    sha256: string;
+    size_bytes: number;
+  }[];
+};
+
+type ProcessingLogStep = {
+  stage: "acquisition" | "analysis" | "report_export";
+  timestamp: string;
+  description: string;
+  actor: string | null;
+  details: Record<string, unknown> | null;
+};
+
+type ProcessingLog = {
+  case_id: string;
+  generated_at: string;
+  steps: ProcessingLogStep[];
+};
+
+type IntegrityResponse = {
+  manifest: IntegrityManifest;
+  processing_log: ProcessingLog;
+  file_summary: FileSummary;
+};
+
 function useDebouncedValue(value: string, delay: number) {
   const [debounced, setDebounced] = useState(value);
 
@@ -76,6 +138,20 @@ function buildQuery(filters: string[], search: string) {
   return params.toString();
 }
 
+function formatBytes(bytes: number) {
+  return `${bytes.toLocaleString()} bytes`;
+}
+
+function formatDetailValue(value: unknown) {
+  if (value === null || value === undefined) {
+    return "n/a";
+  }
+  if (typeof value === "object") {
+    return JSON.stringify(value);
+  }
+  return String(value);
+}
+
 export default function App() {
   const [query, setQuery] = useState("");
   const [filters, setFilters] = useState<string[]>([]);
@@ -83,6 +159,9 @@ export default function App() {
   const [selectedRecord, setSelectedRecord] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [integrityData, setIntegrityData] = useState<IntegrityResponse | null>(null);
+  const [integrityError, setIntegrityError] = useState<string | null>(null);
+  const [integrityLoading, setIntegrityLoading] = useState(false);
   const debouncedQuery = useDebouncedValue(query, 320);
 
   useEffect(() => {
@@ -116,8 +195,33 @@ export default function App() {
     }
   }, [response, selectedRecord]);
 
+  useEffect(() => {
+    const controller = new AbortController();
+    setIntegrityLoading(true);
+    setIntegrityError(null);
+    fetch(`${API_URL}/integrity`, { signal: controller.signal })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Integrity data failed (${res.status})`);
+        }
+        return res.json();
+      })
+      .then((data: IntegrityResponse) => {
+        setIntegrityData(data);
+      })
+      .catch((err) => {
+        if (err.name !== "AbortError") {
+          setIntegrityError(err.message);
+        }
+      })
+      .finally(() => setIntegrityLoading(false));
+    return () => controller.abort();
+  }, []);
+
   const hits = response?.hits ?? [];
   const selectedHit = hits.find((hit) => hit.record_id === selectedRecord) ?? hits[0] ?? null;
+  const manifest = integrityData?.manifest ?? null;
+  const processingLog = integrityData?.processing_log ?? null;
 
   const toggleFilter = (artifactType: string) => {
     setFilters((prev) =>
@@ -166,6 +270,106 @@ export default function App() {
           {error && <span className="status-error">{error}</span>}
           {!isLoading && !error && response && <span>{response.total_hits} hits</span>}
         </div>
+      </section>
+      <section className="panel integrity-panel">
+        <h2>Integrity Panel</h2>
+        {integrityLoading && <p>Loading integrity metadata...</p>}
+        {integrityError && <p className="status-error">{integrityError}</p>}
+        {!integrityLoading && !integrityError && !integrityData && (
+          <p>Integrity metadata is unavailable.</p>
+        )}
+        {integrityData && manifest && processingLog && (
+          <>
+            <div className="integrity-grid">
+              <div className="integrity-row">
+                <strong>Operator</strong>
+                <span>{manifest.acquisition.operator}</span>
+              </div>
+              <div className="integrity-row">
+                <strong>Device</strong>
+                <span>
+                  {manifest.acquisition.device.logical_id} • {manifest.acquisition.device.platform}
+                </span>
+              </div>
+              <div className="integrity-row">
+                <strong>Acquired</strong>
+                <span>
+                  {manifest.acquisition.acquired_at}
+                  <br />
+                  {manifest.acquisition.method}
+                </span>
+              </div>
+              <div className="integrity-row">
+                <strong>App</strong>
+                <span>
+                  {manifest.app.label} ({manifest.app.package}) v{manifest.app.version}
+                </span>
+              </div>
+              <div className="integrity-row">
+                <strong>Parser</strong>
+                <span>{manifest.parser_version}</span>
+              </div>
+              <div className="integrity-row">
+                <strong>Manifest</strong>
+                <span>{manifest.generated_at}</span>
+              </div>
+              <div className="integrity-row">
+                <strong>Report</strong>
+                <span>{manifest.report?.path ?? "—"}</span>
+              </div>
+              <div className="integrity-row">
+                <strong>Report SHA</strong>
+                <span>{manifest.report?.sha256 ?? "pending"}</span>
+              </div>
+              <div className="integrity-row">
+                <strong>Commit</strong>
+                <span className="monospace">{manifest.environment.git_commit}</span>
+              </div>
+              <div className="integrity-row">
+                <strong>Container</strong>
+                <span>{manifest.environment.container_image_digest ?? "n/a"}</span>
+              </div>
+              <div className="integrity-row">
+                <strong>Files</strong>
+                <span>
+                  {integrityData.file_summary.file_count} files •{" "}
+                  {formatBytes(integrityData.file_summary.total_size_bytes)}
+                </span>
+              </div>
+            </div>
+            <div className="processing-log">
+              <div className="processing-log-header">
+                <h3>Processing log</h3>
+                <span>{processingLog.generated_at}</span>
+              </div>
+              <div className="processing-log-steps">
+                {processingLog.steps.map((step) => (
+                  <article
+                    key={`${step.stage}-${step.timestamp}`}
+                    className="processing-log-step"
+                  >
+                    <div className="processing-log-heading">
+                      <span className={`stage-badge stage-${step.stage}`}>{step.stage}</span>
+                      <span className="timestamp">{step.timestamp}</span>
+                    </div>
+                    <p className="description">{step.description}</p>
+                    {step.actor && <p className="actor">Actor: {step.actor}</p>}
+                    {step.details && (
+                      <ul className="detail-list">
+                        {Object.entries(step.details).map(([detailKey, detailValue]) => (
+                          <li key={detailKey}>
+                            <strong>{detailKey}</strong>
+                            <span>{formatDetailValue(detailValue)}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </article>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
       </section>
       <section className="panel layout">
         <div className="result-feed">

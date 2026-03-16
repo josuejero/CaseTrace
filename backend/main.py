@@ -4,9 +4,19 @@ from __future__ import annotations
 import sqlite3
 from functools import lru_cache
 from pathlib import Path
+from typing import Any
+
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, BaseSettings, Field
+from pydantic import BaseModel, Field
+from pydantic_settings import BaseSettings
+
+from integrity import (
+    case_dir_from_db,
+    gather_file_summary,
+    load_manifest,
+    load_processing_log,
+)
 
 DEFAULT_ARTIFACT_TYPES = [
     "message",
@@ -68,6 +78,38 @@ class RecordDetail(BaseModel):
     timeline_context: list[TimelineEntry]
 
 
+class IntegrityManifest(BaseModel):
+    case_id: str
+    algorithm: str
+    generated_at: str
+    acquisition: dict[str, Any]
+    app: dict[str, Any]
+    environment: dict[str, Any]
+    parser_version: str
+    report: dict[str, Any] | None
+    files: list[dict[str, Any]]
+
+
+class ProcessingLogStep(BaseModel):
+    stage: str
+    timestamp: str
+    description: str
+    actor: str | None
+    details: dict[str, Any] | None
+
+
+class ProcessingLog(BaseModel):
+    case_id: str
+    generated_at: str
+    steps: list[ProcessingLogStep]
+
+
+class IntegrityResponse(BaseModel):
+    manifest: IntegrityManifest
+    processing_log: ProcessingLog
+    file_summary: dict[str, int]
+
+
 @lru_cache(maxsize=1)
 def get_settings() -> CaseSearchSettings:
     return CaseSearchSettings()
@@ -110,6 +152,23 @@ def record_detail(record_id: str) -> RecordDetail:
     if not detail:
         raise HTTPException(status_code=404, detail="Record not found")
     return detail
+
+
+@app.get("/integrity", response_model=IntegrityResponse)
+def integrity_data() -> IntegrityResponse:
+    settings = get_settings()
+    case_dir = case_dir_from_db(settings.case_db_path)
+    try:
+        manifest = load_manifest(case_dir)
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=404, detail=str(exc))
+    processing_log = load_processing_log(case_dir)
+    summary = gather_file_summary(manifest.get("files", []))
+    return IntegrityResponse(
+        manifest=manifest,
+        processing_log=processing_log,
+        file_summary=summary,
+    )
 
 
 class CaseSearchEngine:

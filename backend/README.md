@@ -15,5 +15,6 @@ The server defaults to `cases/CT-2026-001/parsed/case.db`. Override the database
 
 - `GET /search`: Query parameters `q` (keywords), repeated `type` filters (artifact types), `limit`, and `offset`. Returns hit counts per type, snippet previews, and timeline context.
 - `GET /records/{record_id}`: Details for a single artifact along with its surrounding timeline events.
+- `GET /integrity`: Returns the hash manifest, processing log, and file summary that power the Integrity panel discussed in `docs/phase8-integrity.md`.
 
 Refer to `docs/phase7-search.md` for detailed expectations and UI flows.

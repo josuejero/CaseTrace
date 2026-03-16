@@ -46,7 +46,8 @@ flowchart LR
 
 - `case.json` records case identity, subject, device, acquisition method, timezone, and report target.
 - `files/` mirrors the acquired app-internal directory structure.
-- `hash_manifest.json` provides SHA-256 coverage for every file in `files/`.
+- `hash_manifest.json` provides SHA-256 coverage for every file in `files/` while also recording acquisition/parser/report metadata and the current git/container digest.
+- `processing_log.json` records acquisition → analysis → report steps so every transform reads like a laboratory notebook.
 - `validation/case_ct_2026_001_ground_truth.json` defines the expected normalized outputs.
 - `validation/expected_metrics.json` defines counts, deleted-record totals, and minimum correlation thresholds.
 - The validation fixture is fixed at 42 records for the Phase 0 case model.

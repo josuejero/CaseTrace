@@ -174,6 +174,17 @@ def verify_hash_manifest() -> None:
             raise AssertionError(f"size mismatch for {entry['path']}")
 
 
+def verify_processing_log() -> None:
+    log = load_json(CASE_DIR / "processing_log.json")
+    validate_instance("processing_log.json", "processing-log.schema.json", log)
+    steps = log.get("steps", [])
+    required_stages = {"acquisition", "analysis", "report_export"}
+    seen_stages = {step.get("stage") for step in steps}
+    missing = required_stages - seen_stages
+    if missing:
+        raise AssertionError(f"processing_log.json missing stages: {sorted(missing)}")
+
+
 def verify_case_bundle() -> None:
     case_metadata = load_json(CASE_DIR / "case.json")
     expected_metrics = load_json(CASE_DIR / "validation" / "expected_metrics.json")
@@ -261,6 +272,7 @@ def main() -> None:
     validate_example_fixtures()
     verify_case_bundle()
     verify_hash_manifest()
+    verify_processing_log()
     verify_docs_consistency()
     print("Phase 0 verification passed.")
 
