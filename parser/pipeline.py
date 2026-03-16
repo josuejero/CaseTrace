@@ -3,8 +3,10 @@ from __future__ import annotations
 
 import json
 import sqlite3
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from .common import guess_mime_type, load_json
 from .ground_truth import GroundTruthIndex
@@ -99,6 +101,19 @@ def _index_artifacts_by_key(artifacts: list[ParsedArtifact]) -> dict[tuple[str, 
     return lookup
 
 
+EVENT_TYPE_ORDER = [
+    "message",
+    "call",
+    "browser_visit",
+    "location_point",
+    "photo",
+    "app_event",
+    "recovered_record",
+]
+
+EVENT_TYPE_RANK = {etype: index for index, etype in enumerate(EVENT_TYPE_ORDER)}
+
+
 def _write_case_db(db_path: Path, artifacts: list[ParsedArtifact], case_dir: Path) -> None:
     manifest = load_json(case_dir / "hash_manifest.json")
     case_metadata = load_json(case_dir / "case.json")
@@ -107,7 +122,7 @@ def _write_case_db(db_path: Path, artifacts: list[ParsedArtifact], case_dir: Pat
         connection.execute("PRAGMA journal_mode=WAL;")
         connection.executescript(_schema_sql())
         _populate_artifacts(connection, artifacts)
-        _populate_timeline(connection, artifacts)
+        _populate_timeline(connection, artifacts, case_metadata)
         _populate_entities(connection, artifacts)
         _populate_search_index(connection, artifacts)
         _populate_recovery_findings(connection, artifacts)
@@ -224,12 +239,23 @@ def _schema_sql() -> str:
         metadata_json TEXT
     );
     CREATE TABLE IF NOT EXISTS timeline_events (
-        record_id TEXT,
-        artifact_type TEXT,
-        event_time_start TEXT,
-        event_time_end TEXT,
-        summary TEXT,
-        raw_ref TEXT
+        record_id TEXT PRIMARY KEY,
+        artifact_type TEXT NOT NULL,
+        event_type TEXT NOT NULL,
+        event_type_rank INTEGER NOT NULL,
+        event_time_start TEXT NOT NULL,
+        event_time_end TEXT NOT NULL,
+        event_time_local TEXT NOT NULL,
+        timezone TEXT NOT NULL,
+        actor TEXT,
+        target TEXT,
+        source_file TEXT NOT NULL,
+        raw_ref TEXT NOT NULL,
+        content_preview TEXT NOT NULL,
+        deleted_flag INTEGER NOT NULL,
+        confidence REAL NOT NULL,
+        has_location INTEGER NOT NULL,
+        location_label TEXT
     );
     CREATE TABLE IF NOT EXISTS entities (
         entity_id TEXT PRIMARY KEY,
@@ -427,44 +453,94 @@ def _populate_artifacts(connection: sqlite3.Connection, artifacts: list[ParsedAr
                     record_id, event_time_start, event_time_end, actor, counterparty,
                     event_type, content_summary, raw_ref, deleted_flag, confidence,
                     parser_version, source_file, metadata_json
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """,
-        (
-            record.record_id,
-            record.event_time_start,
-            record.event_time_end,
-            record.actor,
-            record.counterparty,
-            artifact.metadata.get("event_type"),
-            record.content_summary,
-            record.raw_ref,
-            deleted_int,
-            record.confidence,
-            record.parser_version,
-            record.source_file,
-            metadata_json,
-        ),
-    )
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    record.record_id,
+                    record.event_time_start,
+                    record.event_time_end,
+                    record.actor,
+                    record.counterparty,
+                    artifact.metadata.get("event_type"),
+                    record.content_summary,
+                    record.raw_ref,
+                    deleted_int,
+                    record.confidence,
+                    record.parser_version,
+                    record.source_file,
+                    metadata_json,
+                ),
+            )
 
 
-def _populate_timeline(connection: sqlite3.Connection, artifacts: list[ParsedArtifact]) -> None:
+def _populate_timeline(connection: sqlite3.Connection, artifacts: list[ParsedArtifact], case_metadata: dict[str, Any]) -> None:
+    timezone_name = case_metadata.get("timezone") or "UTC"
+    try:
+        local_zone = ZoneInfo(timezone_name)
+    except ZoneInfoNotFoundError:
+        local_zone = ZoneInfo("UTC")
+        timezone_name = "UTC"
+
     for artifact in artifacts:
         record = artifact.record
+        event_type = _timeline_event_type(artifact)
+        event_type_rank = EVENT_TYPE_RANK.get(event_type, len(EVENT_TYPE_ORDER))
+        event_time_local = _local_event_time(record.event_time_start, local_zone)
+        has_location = int(bool(record.location))
+        location_label = record.location.label if record.location else None
         connection.execute(
             """
-            INSERT INTO timeline_events (
-                record_id, artifact_type, event_time_start, event_time_end, summary, raw_ref
-            ) VALUES (?, ?, ?, ?, ?, ?)
+            INSERT OR REPLACE INTO timeline_events (
+                record_id, artifact_type, event_type, event_type_rank,
+                event_time_start, event_time_end, event_time_local, timezone,
+                actor, target, source_file, raw_ref, content_preview,
+                deleted_flag, confidence, has_location, location_label
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 record.record_id,
                 record.artifact_type,
+                event_type,
+                event_type_rank,
                 record.event_time_start,
                 record.event_time_end,
-                record.content_summary,
+                event_time_local,
+                timezone_name,
+                record.actor,
+                record.counterparty,
+                record.source_file,
                 record.raw_ref,
+                _content_preview(record.content_summary),
+                int(record.deleted_flag),
+                record.confidence,
+                has_location,
+                location_label,
             ),
         )
+
+
+def _timeline_event_type(artifact: ParsedArtifact) -> str:
+    if artifact.record.artifact_type == "app_event":
+        return artifact.metadata.get("event_type") or "app_event"
+    return artifact.record.artifact_type
+
+
+def _local_event_time(timestamp: str, zone: ZoneInfo) -> str:
+    utc_dt = _parse_iso8601_utc(timestamp)
+    return utc_dt.astimezone(zone).isoformat()
+
+
+def _parse_iso8601_utc(value: str) -> datetime:
+    if value.endswith("Z"):
+        value = value[:-1] + "+00:00"
+    return datetime.fromisoformat(value)
+
+
+def _content_preview(summary: str) -> str:
+    trimmed = summary.strip()
+    if len(trimmed) <= 256:
+        return trimmed
+    return f"{trimmed[:253]}..."
 
 
 def _entity_id(name: str) -> str:

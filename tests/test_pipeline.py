@@ -31,3 +31,8 @@ class PipelineTest(unittest.TestCase):
                 self.assertEqual(conn.execute("SELECT COUNT(*) FROM recovery_findings").fetchone()[0], 2)
                 self.assertEqual(conn.execute("SELECT COUNT(*) FROM search_index").fetchone()[0], 42)
                 self.assertEqual(conn.execute("SELECT COUNT(*) FROM timeline_events").fetchone()[0], 42)
+                case_timezone = json.loads((CASE_DIR / "case.json").read_text(encoding="utf-8"))["timezone"]
+                timezones = {row[0] for row in conn.execute("SELECT DISTINCT timezone FROM timeline_events")}
+                self.assertEqual(timezones, {case_timezone})
+                location_rows = conn.execute("SELECT COUNT(*) FROM timeline_events WHERE has_location=1").fetchone()[0]
+                self.assertEqual(location_rows, 14)
