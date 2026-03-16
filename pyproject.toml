@@ -21,7 +21,10 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["jsonschema>=4.26,<5"]
+dev = [
+    "jsonschema>=4.26,<5",
+    "httpx>=0.30,<1",
+]
 
 [tool.setuptools]
 py-modules = ["integrity"]
