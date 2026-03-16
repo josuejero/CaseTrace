@@ -93,29 +93,30 @@ def _format_metadata(metadata: dict) -> str:
 
 def _entity_detail_html(graph_data: GraphData, data_file_name: str) -> str:
     case_id = graph_data.case_id or "unknown"
-    return f"""<!DOCTYPE html>
-<html lang="en">
+    generated_at = graph_data.generated_at or "unknown"
+    template = """<!DOCTYPE html>
+<html lang=\"en\">
 <head>
-  <meta charset="utf-8" />
+  <meta charset=\"utf-8\" />
   <title>CaseTrace Entity Details</title>
   <style>
-    body {{ font-family: system-ui, sans-serif; margin: 2rem; max-width: 960px; }}
-    h1 {{ margin-bottom: 0; }}
-    section {{ margin-top: 2rem; border-top: 1px solid #ccc; padding-top: 1rem; }}
-    table {{ width: 100%; border-collapse: collapse; margin-top: 0.5rem; }}
-    th, td {{ border: 1px solid #ddd; padding: 0.25rem 0.5rem; text-align: left; }}
-    th {{ background: #f8f8f8; }}
-    .status {{ color: #b22222; }}
+    body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 960px; }
+    h1 { margin-bottom: 0; }
+    section { margin-top: 2rem; border-top: 1px solid #ccc; padding-top: 1rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+    th, td { border: 1px solid #ddd; padding: 0.25rem 0.5rem; text-align: left; }
+    th { background: #f8f8f8; }
+    .status { color: #b22222; }
   </style>
 </head>
 <body>
-  <h1>Entity details · {case_id}</h1>
+  <h1>Entity details · __CASE_ID__</h1>
   <p>Each table lists edges that touch the person plus their raw evidence references.</p>
-  <p>Generated <strong>{graph_data.generated_at}</strong>.</p>
-  <div id="entity-details"></div>
-  <p class="status" id="status"></p>
+  <p>Generated <strong>__GENERATED_AT__</strong>.</p>
+  <div id=\"entity-details\"></div>
+  <p class=\"status\" id=\"status\"></p>
   <script>
-    const dataUrl = "{data_file_name}";
+    const dataUrl = "__DATA_FILE__";
     const entityContainer = document.getElementById("entity-details");
     const statusMessage = document.getElementById("status");
 
@@ -126,26 +127,24 @@ def _entity_detail_html(graph_data: GraphData, data_file_name: str) -> str:
         statusMessage.textContent = "Unable to load graph data: " + error;
       });
 
-    function render(data) {{
+    function render(data) {
       const nodes = data.nodes || [];
       const edges = data.edges || [];
       const people = nodes.filter((node) => node.type === "person");
       const rows = Object.fromEntries(nodes.map((node) => [node.node_id, node]));
 
-      if (!people.length) {{
+      if (!people.length) {
         entityContainer.textContent = "No person nodes were found in the graph.";
         return;
-      }}
+      }
 
-      people.forEach((person) => {{
+      people.forEach((person) => {
         const personSection = document.createElement("section");
         const title = document.createElement("h2");
         title.textContent = person.label;
         personSection.appendChild(title);
         const summary = document.createElement("p");
-        summary.textContent = `Node metadata: ${{
-          Object.keys(person.metadata || {{}}).length ? JSON.stringify(person.metadata) : "none"
-        }}`;
+        summary.textContent = `Node metadata: ${Object.keys(person.metadata || {}).length ? JSON.stringify(person.metadata) : "none"}`;
         personSection.appendChild(summary);
 
         const table = document.createElement("table");
@@ -156,29 +155,35 @@ def _entity_detail_html(graph_data: GraphData, data_file_name: str) -> str:
         const related = edges.filter(
           (edge) => edge.source === person.node_id || edge.target === person.node_id
         );
-        related.forEach((edge) => {{
+        related.forEach((edge) => {
           const otherId = edge.source === person.node_id ? edge.target : edge.source;
           const direction = edge.source === person.node_id ? "→" : "←";
           const otherNode = rows[otherId];
           const row = document.createElement("tr");
           row.innerHTML = `
-            <td>${{edge.type}}</td>
-            <td>${{direction}}</td>
-            <td>${{otherNode ? otherNode.label : otherId}}</td>
-            <td>${{edge.metadata.record_id || "–"}}</td>
-            <td>${{edge.metadata.raw_ref || "–"}}</td>
+            <td>${edge.type}</td>
+            <td>${direction}</td>
+            <td>${otherNode ? otherNode.label : otherId}</td>
+            <td>${edge.metadata.record_id || "–"}</td>
+            <td>${edge.metadata.raw_ref || "–"}</td>
           `;
           body.appendChild(row);
-        }});
+        });
         table.appendChild(body);
         personSection.appendChild(table);
         entityContainer.appendChild(personSection);
-      }});
-    }}
+      });
+    }
   </script>
 </body>
 </html>
 """
+    return (
+        template
+        .replace("__CASE_ID__", case_id)
+        .replace("__GENERATED_AT__", generated_at)
+        .replace("__DATA_FILE__", data_file_name)
+    )
 
 
 if __name__ == "__main__":

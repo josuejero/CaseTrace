@@ -1,0 +1,1841 @@
+{
+  "case_id": "CT-2026-001",
+  "generated_at": "2026-03-16T15:37:35.643445+00:00",
+  "nodes": [
+    {
+      "node_id": "entity-mira_chen",
+      "label": "Mira Chen",
+      "type": "person",
+      "metadata": {
+        "source": "parsed_entities"
+      }
+    },
+    {
+      "node_id": "entity-jordan_vega",
+      "label": "Jordan Vega",
+      "type": "person",
+      "metadata": {
+        "source": "parsed_entities"
+      }
+    },
+    {
+      "node_id": "entity-riley_brooks",
+      "label": "Riley Brooks",
+      "type": "person",
+      "metadata": {
+        "source": "parsed_entities"
+      }
+    },
+    {
+      "node_id": "entity-noah_bennett",
+      "label": "Noah Bennett",
+      "type": "person",
+      "metadata": {
+        "source": "parsed_entities"
+      }
+    },
+    {
+      "node_id": "entity-alex_mercer",
+      "label": "Alex Mercer",
+      "type": "person",
+      "metadata": {
+        "source": "parsed_entities"
+      }
+    },
+    {
+      "node_id": "app-account-waypoint_account__jordan_vega_",
+      "label": "Waypoint account (Jordan Vega)",
+      "type": "app account",
+      "metadata": {
+        "package": "com.casetrace.waypoint",
+        "version": "0.1.0-phase0",
+        "subject": "Jordan Vega"
+      }
+    },
+    {
+      "node_id": "device-pixel7_api34_emulator__android_14__api_34__",
+      "label": "pixel7-api34-emulator (Android 14 (API 34))",
+      "type": "device",
+      "metadata": {
+        "adb_serial": "emulator-5554",
+        "platform": "Android 14 (API 34)"
+      }
+    },
+    {
+      "node_id": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "label": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db",
+      "type": "file",
+      "metadata": {
+        "path": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "node_id": "phone-call_001_line_to_alex_mercer",
+      "label": "call-001 line to Alex Mercer",
+      "type": "phone number",
+      "metadata": {
+        "counterparty": "Alex Mercer"
+      }
+    },
+    {
+      "node_id": "phone-call_002_line_to_jordan_vega",
+      "label": "call-002 line to Jordan Vega",
+      "type": "phone number",
+      "metadata": {
+        "counterparty": "Jordan Vega"
+      }
+    },
+    {
+      "node_id": "phone-call_003_line_to_mira_chen",
+      "label": "call-003 line to Mira Chen",
+      "type": "phone number",
+      "metadata": {
+        "counterparty": "Mira Chen"
+      }
+    },
+    {
+      "node_id": "phone-call_004_line_to_jordan_vega",
+      "label": "call-004 line to Jordan Vega",
+      "type": "phone number",
+      "metadata": {
+        "counterparty": "Jordan Vega"
+      }
+    },
+    {
+      "node_id": "url-https___maps_example_transit_east_line",
+      "label": "https://maps.example/transit/east-line",
+      "type": "URL",
+      "metadata": {
+        "domain": "maps.example",
+        "scheme": "https",
+        "record_id": "web-001",
+        "context_summary": "Visited https://maps.example/transit/east-line for morning route timing."
+      }
+    },
+    {
+      "node_id": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_web_db",
+      "label": "/data/user/0/com.casetrace.waypoint/databases/waypoint_web.db",
+      "type": "file",
+      "metadata": {
+        "path": "/data/user/0/com.casetrace.waypoint/databases/waypoint_web.db"
+      }
+    },
+    {
+      "node_id": "url-https___parking_example_north_pier",
+      "label": "https://parking.example/north-pier",
+      "type": "URL",
+      "metadata": {
+        "domain": "parking.example",
+        "scheme": "https",
+        "record_id": "web-002",
+        "context_summary": "Visited https://parking.example/north-pier for garage rates and the closing time."
+      }
+    },
+    {
+      "node_id": "url-https___harborcafe_example_menu",
+      "label": "https://harborcafe.example/menu",
+      "type": "URL",
+      "metadata": {
+        "domain": "harborcafe.example",
+        "scheme": "https",
+        "record_id": "web-003",
+        "context_summary": "Visited https://harborcafe.example/menu before the noon meetup."
+      }
+    },
+    {
+      "node_id": "url-https___tickets_example_events_riverfront",
+      "label": "https://tickets.example/events/riverfront",
+      "type": "URL",
+      "metadata": {
+        "domain": "tickets.example",
+        "scheme": "https",
+        "record_id": "web-004",
+        "context_summary": "Visited https://tickets.example/events/riverfront after Noah's message."
+      }
+    },
+    {
+      "node_id": "url-https___maps_example_routes_riverside_market",
+      "label": "https://maps.example/routes/riverside-market",
+      "type": "URL",
+      "metadata": {
+        "domain": "maps.example",
+        "scheme": "https",
+        "record_id": "web-005",
+        "context_summary": "Visited https://maps.example/routes/riverside-market for the evening reroute."
+      }
+    },
+    {
+      "node_id": "url-https___marketsquarehotel_example_lobby_hours",
+      "label": "https://marketsquarehotel.example/lobby-hours",
+      "type": "URL",
+      "metadata": {
+        "domain": "marketsquarehotel.example",
+        "scheme": "https",
+        "record_id": "web-006",
+        "context_summary": "Visited https://marketsquarehotel.example/lobby-hours before the short stop."
+      }
+    },
+    {
+      "node_id": "location-union_transit_hall",
+      "label": "Union Transit Hall",
+      "type": "location",
+      "metadata": {
+        "label": "Union Transit Hall",
+        "latitude": 40.7527,
+        "longitude": -73.9772
+      }
+    },
+    {
+      "node_id": "file-_data_user_0_com_casetrace_waypoint_exports_location_trace_json",
+      "label": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json",
+      "type": "file",
+      "metadata": {
+        "path": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "node_id": "location-eastline_books",
+      "label": "Eastline Books",
+      "type": "location",
+      "metadata": {
+        "label": "Eastline Books",
+        "latitude": 40.7546,
+        "longitude": -73.9831
+      }
+    },
+    {
+      "node_id": "location-north_pier_garage",
+      "label": "North Pier Garage",
+      "type": "location",
+      "metadata": {
+        "label": "North Pier Garage",
+        "latitude": 40.749,
+        "longitude": -73.9852
+      }
+    },
+    {
+      "node_id": "location-harbor_cafe",
+      "label": "Harbor Cafe",
+      "type": "location",
+      "metadata": {
+        "label": "Harbor Cafe",
+        "latitude": 40.7418,
+        "longitude": -73.9892
+      }
+    },
+    {
+      "node_id": "location-riverfront_plaza",
+      "label": "Riverfront Plaza",
+      "type": "location",
+      "metadata": {
+        "label": "Riverfront Plaza",
+        "latitude": 40.7406,
+        "longitude": -73.9867
+      }
+    },
+    {
+      "node_id": "location-east_market_arcade",
+      "label": "East Market Arcade",
+      "type": "location",
+      "metadata": {
+        "label": "East Market Arcade",
+        "latitude": 40.7384,
+        "longitude": -73.9823
+      }
+    },
+    {
+      "node_id": "location-riverside_market",
+      "label": "Riverside Market",
+      "type": "location",
+      "metadata": {
+        "label": "Riverside Market",
+        "latitude": 40.7441,
+        "longitude": -73.9801
+      }
+    },
+    {
+      "node_id": "location-market_square_hotel",
+      "label": "Market Square Hotel",
+      "type": "location",
+      "metadata": {
+        "label": "Market Square Hotel",
+        "latitude": 40.7468,
+        "longitude": -73.9777
+      }
+    },
+    {
+      "node_id": "location-night_ferry_terminal",
+      "label": "Night Ferry Terminal",
+      "type": "location",
+      "metadata": {
+        "label": "Night Ferry Terminal",
+        "latitude": 40.7511,
+        "longitude": -73.9905
+      }
+    },
+    {
+      "node_id": "photo-photo_001",
+      "label": "photo-001",
+      "type": "photo",
+      "metadata": {}
+    },
+    {
+      "node_id": "file-_data_user_0_com_casetrace_waypoint_media_img_20260312_091300_jpg",
+      "label": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_091300.jpg",
+      "type": "file",
+      "metadata": {
+        "path": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_091300.jpg"
+      }
+    },
+    {
+      "node_id": "photo-photo_002",
+      "label": "photo-002",
+      "type": "photo",
+      "metadata": {}
+    },
+    {
+      "node_id": "file-_data_user_0_com_casetrace_waypoint_media_img_20260312_122500_jpg",
+      "label": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_122500.jpg",
+      "type": "file",
+      "metadata": {
+        "path": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_122500.jpg"
+      }
+    },
+    {
+      "node_id": "photo-photo_003",
+      "label": "photo-003",
+      "type": "photo",
+      "metadata": {}
+    },
+    {
+      "node_id": "file-_data_user_0_com_casetrace_waypoint_media_img_20260312_171200_jpg",
+      "label": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_171200.jpg",
+      "type": "file",
+      "metadata": {
+        "path": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_171200.jpg"
+      }
+    },
+    {
+      "node_id": "photo-photo_004",
+      "label": "photo-004",
+      "type": "photo",
+      "metadata": {}
+    },
+    {
+      "node_id": "file-_data_user_0_com_casetrace_waypoint_media_img_20260312_192000_jpg",
+      "label": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_192000.jpg",
+      "type": "file",
+      "metadata": {
+        "path": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_192000.jpg"
+      }
+    },
+    {
+      "node_id": "keyword-waypoint_session_start_for_the_daily_itinerary_seed",
+      "label": "Waypoint session start for the daily itinerary seed",
+      "type": "keyword",
+      "metadata": {
+        "records": [
+          "app-001"
+        ],
+        "summaries": [
+          "Waypoint session start for the daily itinerary seed."
+        ]
+      }
+    },
+    {
+      "node_id": "file-_data_user_0_com_casetrace_waypoint_logs_app_events_20260312_jsonl",
+      "label": "/data/user/0/com.casetrace.waypoint/logs/app-events-20260312.jsonl",
+      "type": "file",
+      "metadata": {
+        "path": "/data/user/0/com.casetrace.waypoint/logs/app-events-20260312.jsonl"
+      }
+    },
+    {
+      "node_id": "keyword-transit_card_module_opened_after_the_east_line_lookup",
+      "label": "Transit card module opened after the east-line lookup",
+      "type": "keyword",
+      "metadata": {
+        "records": [
+          "app-002"
+        ],
+        "summaries": [
+          "Transit card module opened after the east-line lookup."
+        ]
+      }
+    },
+    {
+      "node_id": "keyword-parking_note_saved__north_pier_garage_closes_at_19_30",
+      "label": "Parking note saved: North Pier Garage closes at 19:30",
+      "type": "keyword",
+      "metadata": {
+        "records": [
+          "app-003"
+        ],
+        "summaries": [
+          "Parking note saved: North Pier Garage closes at 19:30."
+        ]
+      }
+    },
+    {
+      "node_id": "keyword-meetup_checklist_marked_active_for_the_harbor_cafe_stop",
+      "label": "Meetup checklist marked active for the Harbor Cafe stop",
+      "type": "keyword",
+      "metadata": {
+        "records": [
+          "app-004"
+        ],
+        "summaries": [
+          "Meetup checklist marked active for the Harbor Cafe stop."
+        ]
+      }
+    },
+    {
+      "node_id": "keyword-route_export_generated_for_riverfront_plaza",
+      "label": "Route export generated for Riverfront Plaza",
+      "type": "keyword",
+      "metadata": {
+        "records": [
+          "app-005"
+        ],
+        "summaries": [
+          "Route export generated for Riverfront Plaza."
+        ]
+      }
+    },
+    {
+      "node_id": "keyword-check_in_marker_created_for_riverside_market",
+      "label": "Check-in marker created for Riverside Market",
+      "type": "keyword",
+      "metadata": {
+        "records": [
+          "app-006"
+        ],
+        "summaries": [
+          "Check-in marker created for Riverside Market."
+        ]
+      }
+    },
+    {
+      "node_id": "keyword-briefcase_note_edited_at_market_square_hotel",
+      "label": "Briefcase note edited at Market Square Hotel",
+      "type": "keyword",
+      "metadata": {
+        "records": [
+          "app-007"
+        ],
+        "summaries": [
+          "Briefcase note edited at Market Square Hotel."
+        ]
+      }
+    },
+    {
+      "node_id": "keyword-session_end_and_cached_route_archive_written",
+      "label": "Session end and cached route archive written",
+      "type": "keyword",
+      "metadata": {
+        "records": [
+          "app-008"
+        ],
+        "summaries": [
+          "Session end and cached route archive written."
+        ]
+      }
+    },
+    {
+      "node_id": "file-cases_ct_2026_001_case_json",
+      "label": "cases/CT-2026-001/case.json",
+      "type": "file",
+      "metadata": {
+        "path": "cases/CT-2026-001/case.json"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "edge_id": "edge-0001",
+      "source": "app-account-waypoint_account__jordan_vega_",
+      "target": "entity-jordan_vega",
+      "type": "references",
+      "metadata": {
+        "record_id": null,
+        "raw_ref": null,
+        "artifact_type": "case_metadata",
+        "source_file": "cases/CT-2026-001/case.json",
+        "confidence": null
+      }
+    },
+    {
+      "edge_id": "edge-0002",
+      "source": "app-account-waypoint_account__jordan_vega_",
+      "target": "device-pixel7_api34_emulator__android_14__api_34__",
+      "type": "references",
+      "metadata": {
+        "record_id": null,
+        "raw_ref": null,
+        "artifact_type": "case_metadata",
+        "source_file": "cases/CT-2026-001/case.json",
+        "confidence": null
+      }
+    },
+    {
+      "edge_id": "edge-0003",
+      "source": "entity-mira_chen",
+      "target": "entity-jordan_vega",
+      "type": "messaged",
+      "metadata": {
+        "record_id": "msg-001",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=1",
+        "artifact_type": "message",
+        "confidence": 0.99,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0004",
+      "source": "entity-mira_chen",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "msg-001",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=1",
+        "artifact_type": "message",
+        "confidence": 0.99,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0005",
+      "source": "entity-jordan_vega",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "msg-001",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=1",
+        "artifact_type": "message",
+        "confidence": 0.99,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0006",
+      "source": "entity-jordan_vega",
+      "target": "entity-mira_chen",
+      "type": "messaged",
+      "metadata": {
+        "record_id": "msg-002",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=2",
+        "artifact_type": "message",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0007",
+      "source": "entity-jordan_vega",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "msg-002",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=2",
+        "artifact_type": "message",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0008",
+      "source": "entity-mira_chen",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "msg-002",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=2",
+        "artifact_type": "message",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0009",
+      "source": "entity-riley_brooks",
+      "target": "entity-jordan_vega",
+      "type": "messaged",
+      "metadata": {
+        "record_id": "msg-003",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=3",
+        "artifact_type": "message",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0010",
+      "source": "entity-riley_brooks",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "msg-003",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=3",
+        "artifact_type": "message",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0011",
+      "source": "entity-jordan_vega",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "msg-003",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=3",
+        "artifact_type": "message",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0012",
+      "source": "entity-jordan_vega",
+      "target": "entity-riley_brooks",
+      "type": "messaged",
+      "metadata": {
+        "record_id": "msg-004",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=4",
+        "artifact_type": "message",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0013",
+      "source": "entity-jordan_vega",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "msg-004",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=4",
+        "artifact_type": "message",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0014",
+      "source": "entity-riley_brooks",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "msg-004",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=4",
+        "artifact_type": "message",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0015",
+      "source": "entity-noah_bennett",
+      "target": "entity-jordan_vega",
+      "type": "messaged",
+      "metadata": {
+        "record_id": "msg-005",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=5",
+        "artifact_type": "message",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0016",
+      "source": "entity-noah_bennett",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "msg-005",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=5",
+        "artifact_type": "message",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0017",
+      "source": "entity-jordan_vega",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "msg-005",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=5",
+        "artifact_type": "message",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0018",
+      "source": "entity-jordan_vega",
+      "target": "entity-noah_bennett",
+      "type": "messaged",
+      "metadata": {
+        "record_id": "msg-006",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=6",
+        "artifact_type": "message",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0019",
+      "source": "entity-jordan_vega",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "msg-006",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=6",
+        "artifact_type": "message",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0020",
+      "source": "entity-noah_bennett",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "msg-006",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=6",
+        "artifact_type": "message",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0021",
+      "source": "entity-mira_chen",
+      "target": "entity-jordan_vega",
+      "type": "messaged",
+      "metadata": {
+        "record_id": "msg-007",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=7",
+        "artifact_type": "message",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0022",
+      "source": "entity-mira_chen",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "msg-007",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=7",
+        "artifact_type": "message",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0023",
+      "source": "entity-jordan_vega",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "msg-007",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=7",
+        "artifact_type": "message",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0024",
+      "source": "entity-jordan_vega",
+      "target": "entity-mira_chen",
+      "type": "messaged",
+      "metadata": {
+        "record_id": "msg-008",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=8",
+        "artifact_type": "message",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0025",
+      "source": "entity-jordan_vega",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "msg-008",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=8",
+        "artifact_type": "message",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0026",
+      "source": "entity-mira_chen",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "msg-008",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=messages&rowid=8",
+        "artifact_type": "message",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0027",
+      "source": "entity-jordan_vega",
+      "target": "phone-call_001_line_to_alex_mercer",
+      "type": "called",
+      "metadata": {
+        "record_id": "call-001",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=calls&rowid=21",
+        "artifact_type": "call",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0028",
+      "source": "phone-call_001_line_to_alex_mercer",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "call-001",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=calls&rowid=21",
+        "artifact_type": "call",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0029",
+      "source": "entity-jordan_vega",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "call-001",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=calls&rowid=21",
+        "artifact_type": "call",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0030",
+      "source": "entity-noah_bennett",
+      "target": "phone-call_002_line_to_jordan_vega",
+      "type": "called",
+      "metadata": {
+        "record_id": "call-002",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=calls&rowid=22",
+        "artifact_type": "call",
+        "confidence": 0.96,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0031",
+      "source": "phone-call_002_line_to_jordan_vega",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "call-002",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=calls&rowid=22",
+        "artifact_type": "call",
+        "confidence": 0.96,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0032",
+      "source": "entity-noah_bennett",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "call-002",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=calls&rowid=22",
+        "artifact_type": "call",
+        "confidence": 0.96,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0033",
+      "source": "entity-jordan_vega",
+      "target": "phone-call_003_line_to_mira_chen",
+      "type": "called",
+      "metadata": {
+        "record_id": "call-003",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=calls&rowid=23",
+        "artifact_type": "call",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0034",
+      "source": "phone-call_003_line_to_mira_chen",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "call-003",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=calls&rowid=23",
+        "artifact_type": "call",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0035",
+      "source": "entity-jordan_vega",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "call-003",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=calls&rowid=23",
+        "artifact_type": "call",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0036",
+      "source": "entity-riley_brooks",
+      "target": "phone-call_004_line_to_jordan_vega",
+      "type": "called",
+      "metadata": {
+        "record_id": "call-004",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=calls&rowid=24",
+        "artifact_type": "call",
+        "confidence": 0.95,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0037",
+      "source": "phone-call_004_line_to_jordan_vega",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "call-004",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=calls&rowid=24",
+        "artifact_type": "call",
+        "confidence": 0.95,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0038",
+      "source": "entity-riley_brooks",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "call-004",
+        "raw_ref": "db://files/databases/waypoint_core.db#table=calls&rowid=24",
+        "artifact_type": "call",
+        "confidence": 0.95,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db"
+      }
+    },
+    {
+      "edge_id": "edge-0039",
+      "source": "entity-jordan_vega",
+      "target": "url-https___maps_example_transit_east_line",
+      "type": "visited",
+      "metadata": {
+        "record_id": "web-001",
+        "raw_ref": "db://files/databases/waypoint_web.db#table=browser_history&rowid=1",
+        "artifact_type": "browser_visit",
+        "confidence": 0.96,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_web.db"
+      }
+    },
+    {
+      "edge_id": "edge-0040",
+      "source": "url-https___maps_example_transit_east_line",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_web_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "web-001",
+        "raw_ref": "db://files/databases/waypoint_web.db#table=browser_history&rowid=1",
+        "artifact_type": "browser_visit",
+        "confidence": 0.96,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_web.db"
+      }
+    },
+    {
+      "edge_id": "edge-0041",
+      "source": "entity-jordan_vega",
+      "target": "url-https___parking_example_north_pier",
+      "type": "visited",
+      "metadata": {
+        "record_id": "web-002",
+        "raw_ref": "db://files/databases/waypoint_web.db#table=browser_history&rowid=2",
+        "artifact_type": "browser_visit",
+        "confidence": 0.96,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_web.db"
+      }
+    },
+    {
+      "edge_id": "edge-0042",
+      "source": "url-https___parking_example_north_pier",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_web_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "web-002",
+        "raw_ref": "db://files/databases/waypoint_web.db#table=browser_history&rowid=2",
+        "artifact_type": "browser_visit",
+        "confidence": 0.96,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_web.db"
+      }
+    },
+    {
+      "edge_id": "edge-0043",
+      "source": "entity-jordan_vega",
+      "target": "url-https___harborcafe_example_menu",
+      "type": "visited",
+      "metadata": {
+        "record_id": "web-003",
+        "raw_ref": "db://files/databases/waypoint_web.db#table=browser_history&rowid=3",
+        "artifact_type": "browser_visit",
+        "confidence": 0.96,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_web.db"
+      }
+    },
+    {
+      "edge_id": "edge-0044",
+      "source": "url-https___harborcafe_example_menu",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_web_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "web-003",
+        "raw_ref": "db://files/databases/waypoint_web.db#table=browser_history&rowid=3",
+        "artifact_type": "browser_visit",
+        "confidence": 0.96,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_web.db"
+      }
+    },
+    {
+      "edge_id": "edge-0045",
+      "source": "entity-jordan_vega",
+      "target": "url-https___tickets_example_events_riverfront",
+      "type": "visited",
+      "metadata": {
+        "record_id": "web-004",
+        "raw_ref": "db://files/databases/waypoint_web.db#table=browser_history&rowid=4",
+        "artifact_type": "browser_visit",
+        "confidence": 0.95,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_web.db"
+      }
+    },
+    {
+      "edge_id": "edge-0046",
+      "source": "url-https___tickets_example_events_riverfront",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_web_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "web-004",
+        "raw_ref": "db://files/databases/waypoint_web.db#table=browser_history&rowid=4",
+        "artifact_type": "browser_visit",
+        "confidence": 0.95,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_web.db"
+      }
+    },
+    {
+      "edge_id": "edge-0047",
+      "source": "entity-jordan_vega",
+      "target": "url-https___maps_example_routes_riverside_market",
+      "type": "visited",
+      "metadata": {
+        "record_id": "web-005",
+        "raw_ref": "db://files/databases/waypoint_web.db#table=browser_history&rowid=5",
+        "artifact_type": "browser_visit",
+        "confidence": 0.95,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_web.db"
+      }
+    },
+    {
+      "edge_id": "edge-0048",
+      "source": "url-https___maps_example_routes_riverside_market",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_web_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "web-005",
+        "raw_ref": "db://files/databases/waypoint_web.db#table=browser_history&rowid=5",
+        "artifact_type": "browser_visit",
+        "confidence": 0.95,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_web.db"
+      }
+    },
+    {
+      "edge_id": "edge-0049",
+      "source": "entity-jordan_vega",
+      "target": "url-https___marketsquarehotel_example_lobby_hours",
+      "type": "visited",
+      "metadata": {
+        "record_id": "web-006",
+        "raw_ref": "db://files/databases/waypoint_web.db#table=browser_history&rowid=6",
+        "artifact_type": "browser_visit",
+        "confidence": 0.94,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_web.db"
+      }
+    },
+    {
+      "edge_id": "edge-0050",
+      "source": "url-https___marketsquarehotel_example_lobby_hours",
+      "target": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_web_db",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "web-006",
+        "raw_ref": "db://files/databases/waypoint_web.db#table=browser_history&rowid=6",
+        "artifact_type": "browser_visit",
+        "confidence": 0.94,
+        "source_file": "/data/user/0/com.casetrace.waypoint/databases/waypoint_web.db"
+      }
+    },
+    {
+      "edge_id": "edge-0051",
+      "source": "entity-jordan_vega",
+      "target": "location-union_transit_hall",
+      "type": "located_at",
+      "metadata": {
+        "record_id": "loc-001",
+        "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[0]",
+        "artifact_type": "location_point",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "edge_id": "edge-0052",
+      "source": "location-union_transit_hall",
+      "target": "file-_data_user_0_com_casetrace_waypoint_exports_location_trace_json",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "loc-001",
+        "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[0]",
+        "artifact_type": "location_point",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "edge_id": "edge-0053",
+      "source": "entity-jordan_vega",
+      "target": "location-eastline_books",
+      "type": "located_at",
+      "metadata": {
+        "record_id": "loc-002",
+        "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[1]",
+        "artifact_type": "location_point",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "edge_id": "edge-0054",
+      "source": "location-eastline_books",
+      "target": "file-_data_user_0_com_casetrace_waypoint_exports_location_trace_json",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "loc-002",
+        "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[1]",
+        "artifact_type": "location_point",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "edge_id": "edge-0055",
+      "source": "entity-jordan_vega",
+      "target": "location-north_pier_garage",
+      "type": "located_at",
+      "metadata": {
+        "record_id": "loc-003",
+        "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[2]",
+        "artifact_type": "location_point",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "edge_id": "edge-0056",
+      "source": "location-north_pier_garage",
+      "target": "file-_data_user_0_com_casetrace_waypoint_exports_location_trace_json",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "loc-003",
+        "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[2]",
+        "artifact_type": "location_point",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "edge_id": "edge-0057",
+      "source": "entity-jordan_vega",
+      "target": "location-harbor_cafe",
+      "type": "located_at",
+      "metadata": {
+        "record_id": "loc-004",
+        "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[3]",
+        "artifact_type": "location_point",
+        "confidence": 0.99,
+        "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "edge_id": "edge-0058",
+      "source": "location-harbor_cafe",
+      "target": "file-_data_user_0_com_casetrace_waypoint_exports_location_trace_json",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "loc-004",
+        "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[3]",
+        "artifact_type": "location_point",
+        "confidence": 0.99,
+        "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "edge_id": "edge-0059",
+      "source": "entity-jordan_vega",
+      "target": "location-riverfront_plaza",
+      "type": "located_at",
+      "metadata": {
+        "record_id": "loc-005",
+        "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[4]",
+        "artifact_type": "location_point",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "edge_id": "edge-0060",
+      "source": "location-riverfront_plaza",
+      "target": "file-_data_user_0_com_casetrace_waypoint_exports_location_trace_json",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "loc-005",
+        "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[4]",
+        "artifact_type": "location_point",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "edge_id": "edge-0061",
+      "source": "entity-jordan_vega",
+      "target": "location-east_market_arcade",
+      "type": "located_at",
+      "metadata": {
+        "record_id": "loc-006",
+        "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[5]",
+        "artifact_type": "location_point",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "edge_id": "edge-0062",
+      "source": "location-east_market_arcade",
+      "target": "file-_data_user_0_com_casetrace_waypoint_exports_location_trace_json",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "loc-006",
+        "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[5]",
+        "artifact_type": "location_point",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "edge_id": "edge-0063",
+      "source": "entity-jordan_vega",
+      "target": "location-riverside_market",
+      "type": "located_at",
+      "metadata": {
+        "record_id": "loc-007",
+        "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[6]",
+        "artifact_type": "location_point",
+        "confidence": 0.99,
+        "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "edge_id": "edge-0064",
+      "source": "location-riverside_market",
+      "target": "file-_data_user_0_com_casetrace_waypoint_exports_location_trace_json",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "loc-007",
+        "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[6]",
+        "artifact_type": "location_point",
+        "confidence": 0.99,
+        "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "edge_id": "edge-0065",
+      "source": "entity-jordan_vega",
+      "target": "location-market_square_hotel",
+      "type": "located_at",
+      "metadata": {
+        "record_id": "loc-008",
+        "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[7]",
+        "artifact_type": "location_point",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "edge_id": "edge-0066",
+      "source": "location-market_square_hotel",
+      "target": "file-_data_user_0_com_casetrace_waypoint_exports_location_trace_json",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "loc-008",
+        "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[7]",
+        "artifact_type": "location_point",
+        "confidence": 0.98,
+        "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "edge_id": "edge-0067",
+      "source": "entity-jordan_vega",
+      "target": "location-north_pier_garage",
+      "type": "located_at",
+      "metadata": {
+        "record_id": "loc-009",
+        "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[8]",
+        "artifact_type": "location_point",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "edge_id": "edge-0068",
+      "source": "location-north_pier_garage",
+      "target": "file-_data_user_0_com_casetrace_waypoint_exports_location_trace_json",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "loc-009",
+        "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[8]",
+        "artifact_type": "location_point",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "edge_id": "edge-0069",
+      "source": "entity-jordan_vega",
+      "target": "location-night_ferry_terminal",
+      "type": "located_at",
+      "metadata": {
+        "record_id": "loc-010",
+        "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[9]",
+        "artifact_type": "location_point",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "edge_id": "edge-0070",
+      "source": "location-night_ferry_terminal",
+      "target": "file-_data_user_0_com_casetrace_waypoint_exports_location_trace_json",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "loc-010",
+        "raw_ref": "file://files/exports/location_trace.json#jsonpath=$.points[9]",
+        "artifact_type": "location_point",
+        "confidence": 0.97,
+        "source_file": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json"
+      }
+    },
+    {
+      "edge_id": "edge-0071",
+      "source": "photo-photo_001",
+      "target": "location-north_pier_garage",
+      "type": "captured_at",
+      "metadata": {
+        "record_id": "photo-001",
+        "raw_ref": "file://files/media/IMG_20260312_091300.jpg",
+        "artifact_type": "photo",
+        "confidence": 0.95,
+        "source_file": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_091300.jpg"
+      }
+    },
+    {
+      "edge_id": "edge-0072",
+      "source": "entity-jordan_vega",
+      "target": "location-north_pier_garage",
+      "type": "located_at",
+      "metadata": {
+        "record_id": "photo-001",
+        "raw_ref": "file://files/media/IMG_20260312_091300.jpg",
+        "artifact_type": "photo",
+        "confidence": 0.95,
+        "source_file": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_091300.jpg"
+      }
+    },
+    {
+      "edge_id": "edge-0073",
+      "source": "photo-photo_001",
+      "target": "file-_data_user_0_com_casetrace_waypoint_media_img_20260312_091300_jpg",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "photo-001",
+        "raw_ref": "file://files/media/IMG_20260312_091300.jpg",
+        "artifact_type": "photo",
+        "confidence": 0.95,
+        "source_file": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_091300.jpg"
+      }
+    },
+    {
+      "edge_id": "edge-0074",
+      "source": "photo-photo_002",
+      "target": "location-harbor_cafe",
+      "type": "captured_at",
+      "metadata": {
+        "record_id": "photo-002",
+        "raw_ref": "file://files/media/IMG_20260312_122500.jpg",
+        "artifact_type": "photo",
+        "confidence": 0.95,
+        "source_file": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_122500.jpg"
+      }
+    },
+    {
+      "edge_id": "edge-0075",
+      "source": "entity-jordan_vega",
+      "target": "location-harbor_cafe",
+      "type": "located_at",
+      "metadata": {
+        "record_id": "photo-002",
+        "raw_ref": "file://files/media/IMG_20260312_122500.jpg",
+        "artifact_type": "photo",
+        "confidence": 0.95,
+        "source_file": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_122500.jpg"
+      }
+    },
+    {
+      "edge_id": "edge-0076",
+      "source": "photo-photo_002",
+      "target": "file-_data_user_0_com_casetrace_waypoint_media_img_20260312_122500_jpg",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "photo-002",
+        "raw_ref": "file://files/media/IMG_20260312_122500.jpg",
+        "artifact_type": "photo",
+        "confidence": 0.95,
+        "source_file": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_122500.jpg"
+      }
+    },
+    {
+      "edge_id": "edge-0077",
+      "source": "photo-photo_003",
+      "target": "location-riverside_market",
+      "type": "captured_at",
+      "metadata": {
+        "record_id": "photo-003",
+        "raw_ref": "file://files/media/IMG_20260312_171200.jpg",
+        "artifact_type": "photo",
+        "confidence": 0.94,
+        "source_file": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_171200.jpg"
+      }
+    },
+    {
+      "edge_id": "edge-0078",
+      "source": "entity-jordan_vega",
+      "target": "location-riverside_market",
+      "type": "located_at",
+      "metadata": {
+        "record_id": "photo-003",
+        "raw_ref": "file://files/media/IMG_20260312_171200.jpg",
+        "artifact_type": "photo",
+        "confidence": 0.94,
+        "source_file": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_171200.jpg"
+      }
+    },
+    {
+      "edge_id": "edge-0079",
+      "source": "photo-photo_003",
+      "target": "file-_data_user_0_com_casetrace_waypoint_media_img_20260312_171200_jpg",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "photo-003",
+        "raw_ref": "file://files/media/IMG_20260312_171200.jpg",
+        "artifact_type": "photo",
+        "confidence": 0.94,
+        "source_file": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_171200.jpg"
+      }
+    },
+    {
+      "edge_id": "edge-0080",
+      "source": "photo-photo_004",
+      "target": "location-market_square_hotel",
+      "type": "captured_at",
+      "metadata": {
+        "record_id": "photo-004",
+        "raw_ref": "file://files/media/IMG_20260312_192000.jpg",
+        "artifact_type": "photo",
+        "confidence": 0.94,
+        "source_file": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_192000.jpg"
+      }
+    },
+    {
+      "edge_id": "edge-0081",
+      "source": "entity-jordan_vega",
+      "target": "location-market_square_hotel",
+      "type": "located_at",
+      "metadata": {
+        "record_id": "photo-004",
+        "raw_ref": "file://files/media/IMG_20260312_192000.jpg",
+        "artifact_type": "photo",
+        "confidence": 0.94,
+        "source_file": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_192000.jpg"
+      }
+    },
+    {
+      "edge_id": "edge-0082",
+      "source": "photo-photo_004",
+      "target": "file-_data_user_0_com_casetrace_waypoint_media_img_20260312_192000_jpg",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "photo-004",
+        "raw_ref": "file://files/media/IMG_20260312_192000.jpg",
+        "artifact_type": "photo",
+        "confidence": 0.94,
+        "source_file": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_192000.jpg"
+      }
+    },
+    {
+      "edge_id": "edge-0083",
+      "source": "keyword-waypoint_session_start_for_the_daily_itinerary_seed",
+      "target": "entity-jordan_vega",
+      "type": "references",
+      "metadata": {
+        "record_id": "app-001",
+        "raw_ref": "file://files/logs/app-events-20260312.jsonl#line=1",
+        "artifact_type": "app_event",
+        "confidence": 0.94,
+        "source_file": "/data/user/0/com.casetrace.waypoint/logs/app-events-20260312.jsonl"
+      }
+    },
+    {
+      "edge_id": "edge-0084",
+      "source": "keyword-waypoint_session_start_for_the_daily_itinerary_seed",
+      "target": "file-_data_user_0_com_casetrace_waypoint_logs_app_events_20260312_jsonl",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "app-001",
+        "raw_ref": "file://files/logs/app-events-20260312.jsonl#line=1",
+        "artifact_type": "app_event",
+        "confidence": 0.94,
+        "source_file": "/data/user/0/com.casetrace.waypoint/logs/app-events-20260312.jsonl"
+      }
+    },
+    {
+      "edge_id": "edge-0085",
+      "source": "keyword-transit_card_module_opened_after_the_east_line_lookup",
+      "target": "entity-jordan_vega",
+      "type": "references",
+      "metadata": {
+        "record_id": "app-002",
+        "raw_ref": "file://files/logs/app-events-20260312.jsonl#line=2",
+        "artifact_type": "app_event",
+        "confidence": 0.93,
+        "source_file": "/data/user/0/com.casetrace.waypoint/logs/app-events-20260312.jsonl"
+      }
+    },
+    {
+      "edge_id": "edge-0086",
+      "source": "keyword-transit_card_module_opened_after_the_east_line_lookup",
+      "target": "file-_data_user_0_com_casetrace_waypoint_logs_app_events_20260312_jsonl",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "app-002",
+        "raw_ref": "file://files/logs/app-events-20260312.jsonl#line=2",
+        "artifact_type": "app_event",
+        "confidence": 0.93,
+        "source_file": "/data/user/0/com.casetrace.waypoint/logs/app-events-20260312.jsonl"
+      }
+    },
+    {
+      "edge_id": "edge-0087",
+      "source": "keyword-parking_note_saved__north_pier_garage_closes_at_19_30",
+      "target": "entity-jordan_vega",
+      "type": "references",
+      "metadata": {
+        "record_id": "app-003",
+        "raw_ref": "file://files/logs/app-events-20260312.jsonl#line=3",
+        "artifact_type": "app_event",
+        "confidence": 0.93,
+        "source_file": "/data/user/0/com.casetrace.waypoint/logs/app-events-20260312.jsonl"
+      }
+    },
+    {
+      "edge_id": "edge-0088",
+      "source": "keyword-parking_note_saved__north_pier_garage_closes_at_19_30",
+      "target": "file-_data_user_0_com_casetrace_waypoint_logs_app_events_20260312_jsonl",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "app-003",
+        "raw_ref": "file://files/logs/app-events-20260312.jsonl#line=3",
+        "artifact_type": "app_event",
+        "confidence": 0.93,
+        "source_file": "/data/user/0/com.casetrace.waypoint/logs/app-events-20260312.jsonl"
+      }
+    },
+    {
+      "edge_id": "edge-0089",
+      "source": "keyword-meetup_checklist_marked_active_for_the_harbor_cafe_stop",
+      "target": "entity-jordan_vega",
+      "type": "references",
+      "metadata": {
+        "record_id": "app-004",
+        "raw_ref": "file://files/logs/app-events-20260312.jsonl#line=4",
+        "artifact_type": "app_event",
+        "confidence": 0.94,
+        "source_file": "/data/user/0/com.casetrace.waypoint/logs/app-events-20260312.jsonl"
+      }
+    },
+    {
+      "edge_id": "edge-0090",
+      "source": "keyword-meetup_checklist_marked_active_for_the_harbor_cafe_stop",
+      "target": "file-_data_user_0_com_casetrace_waypoint_logs_app_events_20260312_jsonl",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "app-004",
+        "raw_ref": "file://files/logs/app-events-20260312.jsonl#line=4",
+        "artifact_type": "app_event",
+        "confidence": 0.94,
+        "source_file": "/data/user/0/com.casetrace.waypoint/logs/app-events-20260312.jsonl"
+      }
+    },
+    {
+      "edge_id": "edge-0091",
+      "source": "keyword-route_export_generated_for_riverfront_plaza",
+      "target": "entity-jordan_vega",
+      "type": "references",
+      "metadata": {
+        "record_id": "app-005",
+        "raw_ref": "file://files/logs/app-events-20260312.jsonl#line=5",
+        "artifact_type": "app_event",
+        "confidence": 0.93,
+        "source_file": "/data/user/0/com.casetrace.waypoint/logs/app-events-20260312.jsonl"
+      }
+    },
+    {
+      "edge_id": "edge-0092",
+      "source": "keyword-route_export_generated_for_riverfront_plaza",
+      "target": "file-_data_user_0_com_casetrace_waypoint_logs_app_events_20260312_jsonl",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "app-005",
+        "raw_ref": "file://files/logs/app-events-20260312.jsonl#line=5",
+        "artifact_type": "app_event",
+        "confidence": 0.93,
+        "source_file": "/data/user/0/com.casetrace.waypoint/logs/app-events-20260312.jsonl"
+      }
+    },
+    {
+      "edge_id": "edge-0093",
+      "source": "keyword-check_in_marker_created_for_riverside_market",
+      "target": "entity-jordan_vega",
+      "type": "references",
+      "metadata": {
+        "record_id": "app-006",
+        "raw_ref": "file://files/logs/app-events-20260312.jsonl#line=6",
+        "artifact_type": "app_event",
+        "confidence": 0.94,
+        "source_file": "/data/user/0/com.casetrace.waypoint/logs/app-events-20260312.jsonl"
+      }
+    },
+    {
+      "edge_id": "edge-0094",
+      "source": "keyword-check_in_marker_created_for_riverside_market",
+      "target": "file-_data_user_0_com_casetrace_waypoint_logs_app_events_20260312_jsonl",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "app-006",
+        "raw_ref": "file://files/logs/app-events-20260312.jsonl#line=6",
+        "artifact_type": "app_event",
+        "confidence": 0.94,
+        "source_file": "/data/user/0/com.casetrace.waypoint/logs/app-events-20260312.jsonl"
+      }
+    },
+    {
+      "edge_id": "edge-0095",
+      "source": "keyword-briefcase_note_edited_at_market_square_hotel",
+      "target": "entity-jordan_vega",
+      "type": "references",
+      "metadata": {
+        "record_id": "app-007",
+        "raw_ref": "file://files/logs/app-events-20260312.jsonl#line=7",
+        "artifact_type": "app_event",
+        "confidence": 0.93,
+        "source_file": "/data/user/0/com.casetrace.waypoint/logs/app-events-20260312.jsonl"
+      }
+    },
+    {
+      "edge_id": "edge-0096",
+      "source": "keyword-briefcase_note_edited_at_market_square_hotel",
+      "target": "file-_data_user_0_com_casetrace_waypoint_logs_app_events_20260312_jsonl",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "app-007",
+        "raw_ref": "file://files/logs/app-events-20260312.jsonl#line=7",
+        "artifact_type": "app_event",
+        "confidence": 0.93,
+        "source_file": "/data/user/0/com.casetrace.waypoint/logs/app-events-20260312.jsonl"
+      }
+    },
+    {
+      "edge_id": "edge-0097",
+      "source": "keyword-session_end_and_cached_route_archive_written",
+      "target": "entity-jordan_vega",
+      "type": "references",
+      "metadata": {
+        "record_id": "app-008",
+        "raw_ref": "file://files/logs/app-events-20260312.jsonl#line=8",
+        "artifact_type": "app_event",
+        "confidence": 0.93,
+        "source_file": "/data/user/0/com.casetrace.waypoint/logs/app-events-20260312.jsonl"
+      }
+    },
+    {
+      "edge_id": "edge-0098",
+      "source": "keyword-session_end_and_cached_route_archive_written",
+      "target": "file-_data_user_0_com_casetrace_waypoint_logs_app_events_20260312_jsonl",
+      "type": "stored_in",
+      "metadata": {
+        "record_id": "app-008",
+        "raw_ref": "file://files/logs/app-events-20260312.jsonl#line=8",
+        "artifact_type": "app_event",
+        "confidence": 0.93,
+        "source_file": "/data/user/0/com.casetrace.waypoint/logs/app-events-20260312.jsonl"
+      }
+    },
+    {
+      "edge_id": "edge-0099",
+      "source": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_core_db",
+      "target": "file-cases_ct_2026_001_case_json",
+      "type": "linked_to_case",
+      "metadata": {
+        "record_id": null,
+        "raw_ref": null,
+        "artifact_type": "case_metadata",
+        "source_file": "cases/CT-2026-001/case.json",
+        "file_path": "/data/user/0/com.casetrace.waypoint/databases/waypoint_core.db",
+        "confidence": null
+      }
+    },
+    {
+      "edge_id": "edge-0100",
+      "source": "file-_data_user_0_com_casetrace_waypoint_databases_waypoint_web_db",
+      "target": "file-cases_ct_2026_001_case_json",
+      "type": "linked_to_case",
+      "metadata": {
+        "record_id": null,
+        "raw_ref": null,
+        "artifact_type": "case_metadata",
+        "source_file": "cases/CT-2026-001/case.json",
+        "file_path": "/data/user/0/com.casetrace.waypoint/databases/waypoint_web.db",
+        "confidence": null
+      }
+    },
+    {
+      "edge_id": "edge-0101",
+      "source": "file-_data_user_0_com_casetrace_waypoint_exports_location_trace_json",
+      "target": "file-cases_ct_2026_001_case_json",
+      "type": "linked_to_case",
+      "metadata": {
+        "record_id": null,
+        "raw_ref": null,
+        "artifact_type": "case_metadata",
+        "source_file": "cases/CT-2026-001/case.json",
+        "file_path": "/data/user/0/com.casetrace.waypoint/exports/location_trace.json",
+        "confidence": null
+      }
+    },
+    {
+      "edge_id": "edge-0102",
+      "source": "file-_data_user_0_com_casetrace_waypoint_media_img_20260312_091300_jpg",
+      "target": "file-cases_ct_2026_001_case_json",
+      "type": "linked_to_case",
+      "metadata": {
+        "record_id": null,
+        "raw_ref": null,
+        "artifact_type": "case_metadata",
+        "source_file": "cases/CT-2026-001/case.json",
+        "file_path": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_091300.jpg",
+        "confidence": null
+      }
+    },
+    {
+      "edge_id": "edge-0103",
+      "source": "file-_data_user_0_com_casetrace_waypoint_media_img_20260312_122500_jpg",
+      "target": "file-cases_ct_2026_001_case_json",
+      "type": "linked_to_case",
+      "metadata": {
+        "record_id": null,
+        "raw_ref": null,
+        "artifact_type": "case_metadata",
+        "source_file": "cases/CT-2026-001/case.json",
+        "file_path": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_122500.jpg",
+        "confidence": null
+      }
+    },
+    {
+      "edge_id": "edge-0104",
+      "source": "file-_data_user_0_com_casetrace_waypoint_media_img_20260312_171200_jpg",
+      "target": "file-cases_ct_2026_001_case_json",
+      "type": "linked_to_case",
+      "metadata": {
+        "record_id": null,
+        "raw_ref": null,
+        "artifact_type": "case_metadata",
+        "source_file": "cases/CT-2026-001/case.json",
+        "file_path": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_171200.jpg",
+        "confidence": null
+      }
+    },
+    {
+      "edge_id": "edge-0105",
+      "source": "file-_data_user_0_com_casetrace_waypoint_media_img_20260312_192000_jpg",
+      "target": "file-cases_ct_2026_001_case_json",
+      "type": "linked_to_case",
+      "metadata": {
+        "record_id": null,
+        "raw_ref": null,
+        "artifact_type": "case_metadata",
+        "source_file": "cases/CT-2026-001/case.json",
+        "file_path": "/data/user/0/com.casetrace.waypoint/media/IMG_20260312_192000.jpg",
+        "confidence": null
+      }
+    },
+    {
+      "edge_id": "edge-0106",
+      "source": "file-_data_user_0_com_casetrace_waypoint_logs_app_events_20260312_jsonl",
+      "target": "file-cases_ct_2026_001_case_json",
+      "type": "linked_to_case",
+      "metadata": {
+        "record_id": null,
+        "raw_ref": null,
+        "artifact_type": "case_metadata",
+        "source_file": "cases/CT-2026-001/case.json",
+        "file_path": "/data/user/0/com.casetrace.waypoint/logs/app-events-20260312.jsonl",
+        "confidence": null
+      }
+    }
+  ]
+}

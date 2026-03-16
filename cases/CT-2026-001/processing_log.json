@@ -1,6 +1,6 @@
 {
   "case_id": "CT-2026-001",
-  "generated_at": "2026-03-16T15:24:02Z",
+  "generated_at": "2026-03-16T15:45:16Z",
   "steps": [
     {
       "stage": "acquisition",
@@ -45,6 +45,84 @@
     {
       "stage": "analysis",
       "timestamp": "2026-03-16T15:24:02Z",
+      "description": "Normalized artifacts and refreshed hash manifest",
+      "actor": "CaseTrace Lab Analyst",
+      "details": {
+        "parser_version": "phase0-spec/1.0.0",
+        "hash_summary": {
+          "file_count": 13,
+          "total_size_bytes": 212826
+        }
+      }
+    },
+    {
+      "stage": "analysis",
+      "timestamp": "2026-03-16T15:43:37Z",
+      "description": "Normalized artifacts and refreshed hash manifest",
+      "actor": "CaseTrace Lab Analyst",
+      "details": {
+        "parser_version": "phase0-spec/1.0.0",
+        "hash_summary": {
+          "file_count": 13,
+          "total_size_bytes": 212826
+        }
+      }
+    },
+    {
+      "stage": "analysis",
+      "timestamp": "2026-03-16T15:43:38Z",
+      "description": "Normalized artifacts and refreshed hash manifest",
+      "actor": "CaseTrace Lab Analyst",
+      "details": {
+        "parser_version": "phase0-spec/1.0.0",
+        "hash_summary": {
+          "file_count": 13,
+          "total_size_bytes": 212826
+        }
+      }
+    },
+    {
+      "stage": "analysis",
+      "timestamp": "2026-03-16T15:43:41Z",
+      "description": "Normalized artifacts and refreshed hash manifest",
+      "actor": "CaseTrace Lab Analyst",
+      "details": {
+        "parser_version": "phase0-spec/1.0.0",
+        "hash_summary": {
+          "file_count": 13,
+          "total_size_bytes": 212826
+        }
+      }
+    },
+    {
+      "stage": "analysis",
+      "timestamp": "2026-03-16T15:45:13Z",
+      "description": "Normalized artifacts and refreshed hash manifest",
+      "actor": "CaseTrace Lab Analyst",
+      "details": {
+        "parser_version": "phase0-spec/1.0.0",
+        "hash_summary": {
+          "file_count": 13,
+          "total_size_bytes": 212826
+        }
+      }
+    },
+    {
+      "stage": "analysis",
+      "timestamp": "2026-03-16T15:45:13Z",
+      "description": "Normalized artifacts and refreshed hash manifest",
+      "actor": "CaseTrace Lab Analyst",
+      "details": {
+        "parser_version": "phase0-spec/1.0.0",
+        "hash_summary": {
+          "file_count": 13,
+          "total_size_bytes": 212826
+        }
+      }
+    },
+    {
+      "stage": "analysis",
+      "timestamp": "2026-03-16T15:45:16Z",
       "description": "Normalized artifacts and refreshed hash manifest",
       "actor": "CaseTrace Lab Analyst",
       "details": {

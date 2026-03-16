@@ -101,3 +101,7 @@ The verifier checks the JSON Schemas, valid and invalid example fixtures, case m
 - The backend exposes a `/integrity` endpoint that returns the manifest, the processing log, and a file-count summary; the React UI surfaces that data inside a dedicated Integrity panel so every workflow still looks like a lab notebook.
 - `tools/recovery_report.py` now re-hashes the bundle before report export, records the report digest in the manifest, and appends the final log entry. `acquisition/extract_case.py` and `tools/generate_seed_artifacts.py` reuse the shared `integrity.py` helpers so every SHA-256 pass and log step is consistent.
 - See `docs/phase8-integrity.md` for the NIST/OSAC/SWGDE–inspired rationale behind the manifest, log, and re-hash timings.
+
+## Phase 9 Investigator UI & Reporting
+
+Phase 9 transforms the analysis artifacts into a demonstrable investigator workflow. The FastAPI backend now exposes the overview, timeline, artifacts, entity graph, search, and report endpoints that the React UI uses to render a tabbed experience (see `docs/phase9-investigator-ui.md`). `tools/phase9_report.py` generates the HTML/PDF export, re-hashes the manifest, appends the log entry, and powers the embedded report viewer. Capture polished screenshots for your portfolio with the steps in `docs/phase9-screenshots.md`.

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>CaseTrace Entity Details</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; max-width: 960px; }
+    h1 { margin-bottom: 0; }
+    section { margin-top: 2rem; border-top: 1px solid #ccc; padding-top: 1rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+    th, td { border: 1px solid #ddd; padding: 0.25rem 0.5rem; text-align: left; }
+    th { background: #f8f8f8; }
+    .status { color: #b22222; }
+  </style>
+</head>
+<body>
+  <h1>Entity details · CT-2026-001</h1>
+  <p>Each table lists edges that touch the person plus their raw evidence references.</p>
+  <p>Generated <strong>2026-03-16T15:37:35.643445+00:00</strong>.</p>
+  <div id="entity-details"></div>
+  <p class="status" id="status"></p>
+  <script>
+    const dataUrl = "graph-data.json";
+    const entityContainer = document.getElementById("entity-details");
+    const statusMessage = document.getElementById("status");
+
+    fetch(dataUrl)
+      .then((resp) => resp.ok ? resp.json() : Promise.reject(resp.statusText))
+      .then(render)
+      .catch((error) => {
+        statusMessage.textContent = "Unable to load graph data: " + error;
+      });
+
+    function render(data) {
+      const nodes = data.nodes || [];
+      const edges = data.edges || [];
+      const people = nodes.filter((node) => node.type === "person");
+      const rows = Object.fromEntries(nodes.map((node) => [node.node_id, node]));
+
+      if (!people.length) {
+        entityContainer.textContent = "No person nodes were found in the graph.";
+        return;
+      }
+
+      people.forEach((person) => {
+        const personSection = document.createElement("section");
+        const title = document.createElement("h2");
+        title.textContent = person.label;
+        personSection.appendChild(title);
+        const summary = document.createElement("p");
+        summary.textContent = `Node metadata: ${Object.keys(person.metadata || {}).length ? JSON.stringify(person.metadata) : "none"}`;
+        personSection.appendChild(summary);
+
+        const table = document.createElement("table");
+        const head = document.createElement("thead");
+        head.innerHTML = "<tr><th>Edge</th><th>Direction</th><th>Other node</th><th>Record</th><th>Raw ref</th></tr>";
+        table.appendChild(head);
+        const body = document.createElement("tbody");
+        const related = edges.filter(
+          (edge) => edge.source === person.node_id || edge.target === person.node_id
+        );
+        related.forEach((edge) => {
+          const otherId = edge.source === person.node_id ? edge.target : edge.source;
+          const direction = edge.source === person.node_id ? "→" : "←";
+          const otherNode = rows[otherId];
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${edge.type}</td>
+            <td>${direction}</td>
+            <td>${otherNode ? otherNode.label : otherId}</td>
+            <td>${edge.metadata.record_id || "–"}</td>
+            <td>${edge.metadata.raw_ref || "–"}</td>
+          `;
+          body.appendChild(row);
+        });
+        table.appendChild(body);
+        personSection.appendChild(table);
+        entityContainer.appendChild(personSection);
+      });
+    }
+  </script>
+</body>
+</html>

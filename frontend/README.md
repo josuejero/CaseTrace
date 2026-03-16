@@ -1,6 +1,6 @@
-# CaseTrace Search UI
+# CaseTrace Investigator UI
 
-This directory now hosts the Phase 7 search experience: a small React + Vite single-page app that talks to `backend/main.py`.
+The Phase 9 React + Vite frontend now renders a full investigator workspace: case overview, timeline, artifacts browser, entity graph, global search, and the embedded investigator report. Each tab talks to the FastAPI backend endpoints described in `docs/phase9-investigator-ui.md`.
 
 ## Getting started
 
@@ -10,16 +10,16 @@ npm install
 npm run dev
 ```
 
-By default the app calls `http://localhost:8000/search`. If you run the FastAPI backend on another host or port, set `VITE_API_URL` before starting the dev server:
-
-```bash
-VITE_API_URL=http://127.0.0.1:9000 npm run dev
-```
+The UI expects the backend at `http://localhost:8000` by default. Override it with `VITE_API_URL` when you launch the dev server.
 
 ## Features
 
-- Global keyword input that hits the SQLite FTS5 search index.
-- Artifact-type chips with hit counts reported by the backend.
-- Result cards with snippet previews, metadata, and clickable detail panels.
-- Timeline context for each record plus raw reference/source information.
-- Integrity panel that surfaces the `/integrity` payload (manifest, environment, and processing log) alongside the search workflow.
+- **Multi-tab layout** – Pick overview, timeline, artifacts, graph, search, or report to tell a complete investigator story in under two minutes.
+- **Graph rendering** – `react-force-graph-2d` draws the entity graph produced by `tools/build_graph.py`.
+- **Artifacts timeline** – Filters for artifact type, deleted data, and location awareness stay in sync with the search workspace.
+- **Report integration** – The report tab embeds the server-generated HTML export, surfaces validation/integrity insights, and lets users click “Regenerate report”.
+- **Search continuity** – Timeline and graph jumps pin a record in the search panel, so evidence exploration stays linked.
+
+## Docs & screenshots
+
+Detailed UI expectations live in `docs/phase9-investigator-ui.md`. Capture polished screenshots (one per tab) via `docs/phase9-screenshots.md` and store them under `docs/screenshots/phase9/` for your portfolio.
