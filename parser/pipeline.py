@@ -11,6 +11,7 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from .common import guess_mime_type, load_json
 from .ground_truth import GroundTruthIndex
 from .models import ArtifactRecordModel, PARSER_VERSION, ParsedArtifact
+from .search_index import SEARCH_COLUMNS, artifact_search_row, file_search_rows
 from .parse_app_events import parse_app_events
 from .parse_browser import parse_browser
 from .parse_calls import parse_calls
@@ -124,7 +125,7 @@ def _write_case_db(db_path: Path, artifacts: list[ParsedArtifact], case_dir: Pat
         _populate_artifacts(connection, artifacts)
         _populate_timeline(connection, artifacts, case_metadata)
         _populate_entities(connection, artifacts)
-        _populate_search_index(connection, artifacts)
+        _populate_search_index(connection, artifacts, manifest.get("files", []))
         _populate_recovery_findings(connection, recovery_findings)
         _populate_evidence_files(connection, manifest.get("files", []))
         _populate_case_metadata(connection, case_metadata)
@@ -273,7 +274,11 @@ def _schema_sql() -> str:
         content_summary,
         actor,
         counterparty,
-        source_file
+        source_file,
+        url,
+        title,
+        metadata_text,
+        tokenize = 'porter unicode61'
     );
     CREATE TABLE IF NOT EXISTS recovery_findings (
         record_id TEXT PRIMARY KEY,
@@ -575,20 +580,17 @@ def _populate_entities(connection: sqlite3.Connection, artifacts: list[ParsedArt
     )
 
 
-def _populate_search_index(connection: sqlite3.Connection, artifacts: list[ParsedArtifact]) -> None:
-    for artifact in artifacts:
-        record = artifact.record
-        connection.execute(
-            "INSERT INTO search_index(record_id, artifact_type, content_summary, actor, counterparty, source_file) VALUES (?, ?, ?, ?, ?, ?)",
-            (
-                record.record_id,
-                record.artifact_type,
-                record.content_summary,
-                record.actor,
-                record.counterparty,
-                record.source_file,
-            ),
-        )
+def _populate_search_index(
+    connection: sqlite3.Connection, artifacts: list[ParsedArtifact], files: list[dict[str, Any]]
+) -> None:
+    rows = [artifact_search_row(artifact) for artifact in artifacts]
+    rows.extend(file_search_rows(files))
+    placeholders = \",\".join(\"?\" for _ in SEARCH_COLUMNS)
+    column_list = \",\".join(SEARCH_COLUMNS)
+    statement = f\"INSERT INTO search_index({column_list}) VALUES ({placeholders})\"
+    for row in rows:
+        values = [row.get(column) for column in SEARCH_COLUMNS]
+        connection.execute(statement, values)
 
 
 def _populate_recovery_findings(connection: sqlite3.Connection, findings: list[RecoveryFinding]) -> None:

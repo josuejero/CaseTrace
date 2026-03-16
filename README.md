@@ -88,3 +88,8 @@ python3 tools/validate_phase0.py
 
 The verifier checks the JSON Schemas, valid and invalid example fixtures, case metadata, hash coverage, ground-truth counts, deleted-record rules, and document consistency.
 
+## Phase 7 Search
+
+- The FastAPI search service now lives in `backend/main.py` and exposes the enhanced FTS5 index plus timeline context.
+- The React + Vite UI in `frontend/` provides the global search box, artifact filters with hit counts, snippet previews, and detail panel for raw references.
+- Detailed expectations and workflow notes are documented in `docs/phase7-search.md`, and the backend README explains how to run `uvicorn backend.main:app --reload`.

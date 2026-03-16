@@ -11,6 +11,7 @@ from parser import run_pipeline
 
 CASE_DIR = Path("cases/CT-2026-001")
 GROUND_TRUTH_PATH = CASE_DIR / "validation" / "case_ct_2026_001_ground_truth.json"
+MANIFEST_PATH = CASE_DIR / "hash_manifest.json"
 
 
 class PipelineTest(unittest.TestCase):
@@ -37,10 +38,14 @@ class PipelineTest(unittest.TestCase):
                 inferred_or_recovered = label_counts.get("inferred", 0) + label_counts.get("recovered", 0)
                 self.assertGreaterEqual(inferred_or_recovered, 2)
                 self.assertGreaterEqual(label_counts.get("inferred", 0), 1)
-                self.assertEqual(
-                    conn.execute("SELECT COUNT(*) FROM search_index").fetchone()[0],
-                    42,
-                )
+                manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+                expected_rows = 42 + len(manifest.get("files", []))
+                self.assertEqual(conn.execute("SELECT COUNT(*) FROM search_index").fetchone()[0], expected_rows)
+                file_row = conn.execute(
+                    "SELECT metadata_text FROM search_index WHERE artifact_type='evidence_file' LIMIT 1"
+                ).fetchone()
+                self.assertIsNotNone(file_row)
+                self.assertIn("sha256:", file_row[0])
                 self.assertEqual(
                     conn.execute("SELECT COUNT(*) FROM timeline_events").fetchone()[0],
                     42,
